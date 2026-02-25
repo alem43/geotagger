@@ -15,6 +15,13 @@
       "when": 1771774868243,
       "tag": "0001_lying_carmella_unuscione",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1772027131060,
+      "tag": "0002_wise_king_cobra",
+      "breakpoints": true
     }
   ]
 }

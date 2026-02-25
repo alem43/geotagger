@@ -10,6 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+// src/router.tsx
+import { createRouter } from '@tanstack/react-router'
+import { routeTree } from './routeTree.gen'
+
+export function getRouter() {
+  const router = createRouter({
+    routeTree,
+    scrollRestoration: true,
+  })
+
+  return router
+}
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',

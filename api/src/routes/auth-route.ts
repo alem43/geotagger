@@ -7,9 +7,10 @@ import {eq} from "drizzle-orm";
 const authRoute = new Hono();
 
 authRoute.post("/register", async (c) => {
-  const {email, password} = await c.req.json();
+  const {email, password, firstName, lastName} = await c.req.json();
 
-  if (!email || !password) return c.text("Email or username not valid", 400);
+  if (!email || !password || !firstName || !lastName)
+    return c.text("Credentials not valid", 400);
 
   const existing = await db.select().from(users).where(eq(users.email, email));
   if (existing.length > 0) c.text("User already existing!", 400);
@@ -19,6 +20,8 @@ authRoute.post("/register", async (c) => {
   await db.insert(users).values({
     id: crypto.randomUUID(),
     email: email,
+    firstName,
+    lastName,
     passwordHash: passwordHash,
     createdAt: Date.now(),
   });
