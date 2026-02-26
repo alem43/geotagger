@@ -23,7 +23,7 @@ function App() {
 
   return (
     <>
-      <p>Proba</p>
+      <p className="header-h1">Proba</p>
     </>
   )
 }

@@ -1,33 +1,33 @@
 import { Link } from '@tanstack/react-router'
-
 import { useState } from 'react'
 import { Home, Menu, X } from 'lucide-react'
+import geotaggerLogo from '../images/geotagger-logo.svg'
+import hamburgerMenuIcon from '../images/hamburger-menu-icon.svg'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
-      <header className="p-4 flex items-center bg-gray-800 text-white shadow-lg">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-          aria-label="Open menu"
-        >
-          <Menu size={24} />
+      <header className="w-full max-h-24 py-7.5 px-[2.188rem] flex justify-between items-center bg-white">
+        <Link to="/">
+          <img src={geotaggerLogo} alt="Geotagger Logo" />
+        </Link>
+        <button>
+          <img
+            onClick={() => setIsOpen(true)}
+            src={hamburgerMenuIcon}
+            alt="Hamburger menu icon"
+          />
         </button>
-        <h1 className="ml-4 text-xl font-semibold">
-          <Link to="/">
-            <img
-              src="/tanstack-word-logo-white.svg"
-              alt="TanStack Logo"
-              className="h-10"
-            />
-          </Link>
-        </h1>
+        <nav
+          className={`w-full max-h-75 py-7 px-8.75 fixed top-0 left-0 bg-white z-20 transform transition-transform duration-300 ease-in-out flex flex-col ${
+            isOpen ? 'translate-y-0' : '-translate-y-full'
+          }`}
+        ></nav>
       </header>
 
-      <aside
+      {/* <aside
         className={`fixed top-0 left-0 h-full w-80 bg-gray-900 text-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
@@ -57,11 +57,10 @@ export default function Header() {
             <span className="font-medium">Home</span>
           </Link>
 
-          {/* Demo Links Start */}
-
-          {/* Demo Links End */}
+          /* Demo Links Start */
+      /* Demo Links End 
         </nav>
-      </aside>
+      </aside> */}
     </>
   )
 }
