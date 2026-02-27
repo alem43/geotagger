@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { Home, Menu, X } from 'lucide-react'
 import geotaggerLogo from '../images/geotagger-logo.svg'
 import hamburgerMenuIcon from '../images/hamburger-menu-icon.svg'
+import xIcon from '../images/icon-x.svg'
+import arrowRight from '../images/arrow-right.svg'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -13,7 +15,7 @@ export default function Header() {
         <Link to="/">
           <img src={geotaggerLogo} alt="Geotagger Logo" />
         </Link>
-        <button>
+        <button className="cursor-pointer">
           <img
             onClick={() => setIsOpen(true)}
             src={hamburgerMenuIcon}
@@ -21,10 +23,41 @@ export default function Header() {
           />
         </button>
         <nav
-          className={`w-full max-h-75 py-7 px-8.75 fixed top-0 left-0 bg-white z-20 transform transition-transform duration-300 ease-in-out flex flex-col ${
+          className={`w-full max-h-75 py-7 px-8.75 fixed top-0 left-0 bg-white content-end-safe z-20 transform transition-transform duration-300 ease-in-out flex flex-col ${
             isOpen ? 'translate-y-0' : '-translate-y-full'
           }`}
-        ></nav>
+        >
+          <button
+            onClick={() => setIsOpen(false)}
+            className="cursor-pointer max-w-10 max-h-10 "
+          >
+            <img src={xIcon} alt="eXit icon" />
+          </button>
+          <div className="flex justify-between items-center">
+            <Link
+              to="/"
+              className="header-h5 mt-6.25 mb-10.75"
+              onClick={() => setIsOpen(false)}
+            >
+              Home
+            </Link>
+            <img src={arrowRight} alt="Arrow to right" />
+          </div>
+          <Link
+            to="/auth/signUp"
+            onClick={() => setIsOpen(false)}
+            className="sign-up-primary mb-6"
+          >
+            Sign up
+          </Link>
+          <Link
+            to="/auth/signIn"
+            onClick={() => setIsOpen(false)}
+            className="sign-in-primary"
+          >
+            Sign in
+          </Link>
+        </nav>
       </header>
 
       {/* <aside

@@ -15,6 +15,11 @@ code {
     source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+:root {
+  --primary-color: #619b8a;
+  --dark-color: #233d4d;
+}
+
 .header-h1 {
   font-family: 'Raleway', sans-serif;
   font-size: 6.125rem;
@@ -65,4 +70,44 @@ code {
   font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.4px;
+}
+
+.sign-up-primary {
+  padding: 0.5rem 1rem;
+  border-radius: 32px;
+  display: flex;
+  background: #659e89;
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(101, 158, 137, 1) 0%,
+    rgba(97, 155, 138, 1) 50%,
+    rgba(161, 193, 129, 1) 100%
+  );
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(101, 158, 137, 1) 0%,
+    rgba(97, 155, 138, 1) 50%,
+    rgba(161, 193, 129, 1) 100%
+  );
+  background: linear-gradient(
+    90deg,
+    rgba(101, 158, 137, 1) 0%,
+    rgba(97, 155, 138, 1) 50%,
+    rgba(161, 193, 129, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#659E89", endColorstr="#A1C181", GradientType=1);
+  font-weight: 400;
+  font-size: 1rem;
+  color: white;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.sign-in-primary {
+  border-radius: 32px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
 }
