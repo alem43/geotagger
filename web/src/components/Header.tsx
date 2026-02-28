@@ -23,40 +23,42 @@ export default function Header() {
           />
         </button>
         <nav
-          className={`w-full max-h-75 py-7 px-8.75 fixed top-0 left-0 bg-white content-end-safe z-20 transform transition-transform duration-300 ease-in-out flex flex-col ${
+          className={`w-full py-7 px-8.75 fixed top-0 left-0 bg-white z-20 transform transition-transform duration-300 ease-in-out ${
             isOpen ? 'translate-y-0' : '-translate-y-full'
           }`}
         >
-          <button
-            onClick={() => setIsOpen(false)}
-            className="cursor-pointer max-w-10 max-h-10 "
-          >
-            <img src={xIcon} alt="eXit icon" />
-          </button>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col mx-auto w-full">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="cursor-pointer  max-h-10 flex justify-end-safe"
+            >
+              <img src={xIcon} alt="eXit icon" className="-mr-2" />
+            </button>
+
             <Link
               to="/"
-              className="header-h5 mt-6.25 mb-10.75"
+              className="header-h5 mt-6.25 mb-10.75 flex  justify-between items-center "
               onClick={() => setIsOpen(false)}
             >
               Home
+              <img src={arrowRight} alt="Arrow to right" className="mr-4" />
             </Link>
-            <img src={arrowRight} alt="Arrow to right" />
+
+            <Link
+              to="/auth/signUp"
+              onClick={() => setIsOpen(false)}
+              className="sign-up-primary mb-6"
+            >
+              Sign up
+            </Link>
+            <Link
+              to="/auth/signIn"
+              onClick={() => setIsOpen(false)}
+              className="sign-in-primary"
+            >
+              Sign in
+            </Link>
           </div>
-          <Link
-            to="/auth/signUp"
-            onClick={() => setIsOpen(false)}
-            className="sign-up-primary mb-6"
-          >
-            Sign up
-          </Link>
-          <Link
-            to="/auth/signIn"
-            onClick={() => setIsOpen(false)}
-            className="sign-in-primary"
-          >
-            Sign in
-          </Link>
         </nav>
       </header>
 
