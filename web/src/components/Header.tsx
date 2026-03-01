@@ -22,6 +22,18 @@ export default function Header() {
             alt="Hamburger menu icon"
           />
         </button>
+        <div className="hidden gap-4 items-center-safe w-full max-w-60 md:flex">
+          <Link to="/auth/signIn" className="body-p-bold text-dark">
+            Sign in
+          </Link>
+          <p className="body-p text-dark">or</p>
+          <Link
+            to="/auth/signUp"
+            className="sign-up-primary w-full max-w-34.25"
+          >
+            Sign up
+          </Link>
+        </div>
         <nav
           className={`w-full py-7 px-8.75 fixed top-0 left-0 bg-white z-20 transform transition-transform duration-300 ease-in-out ${
             isOpen ? 'translate-y-0' : '-translate-y-full'

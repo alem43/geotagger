@@ -20,6 +20,10 @@ code {
   --dark-color: #233d4d;
 }
 
+.text-dark {
+  color: var(--dark-color);
+}
+
 .header-h1 {
   font-family: 'Raleway', sans-serif;
   font-size: 6.125rem;
