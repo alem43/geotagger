@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { Link } from '@tanstack/react-router'
 import backgroundImage from '../../images/background-image.png'
 import profilePictureDefault from '../../images/profile-picture-default.png'
 
@@ -41,10 +42,10 @@ function RouteComponent() {
   return (
     <div
       style={{ backgroundImage: `url(${backgroundImage})` }}
-      className="bg-cover bg-center w-full h-screen flex justify-center items-center"
+      className="bg-cover bg-center  px-8.75 pt-14 pb-24.75"
     >
       <div
-        className="flex bg-white w-full h-full max-w-86 max-h-161.25 rounded-4xl px-7.5 py-5 gap-4 flex-col items-center-safe"
+        className="flex bg-white max-w-86 rounded-4xl px-7.5 py-5 gap-4 flex-col items-center-safe mx-auto"
         style={{
           boxShadow: `0px 0px 8px 0px #00000026`,
         }}
@@ -56,14 +57,27 @@ function RouteComponent() {
           </p>
         </div>
         <img src={profilePictureDefault} alt="default pfp" />
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4 ">
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="input-label-form">
               Email
             </label>
             <input type="text" className="input-field-form" />
           </div>
-
+          <div className="flex gap-4">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="firstName" className="input-label-form">
+                First name
+              </label>
+              <input type="text" className="input-field-form" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="lastName" className="input-label-form">
+                Last name
+              </label>
+              <input type="text" className="input-field-form" />
+            </div>
+          </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="password" className="input-label-form">
               Password
@@ -75,6 +89,15 @@ function RouteComponent() {
               Confirm password
             </label>
             <input type="password" className="input-field-form" />
+          </div>
+          <button className="sign-up-primary">Sign up</button>
+          <div className="flex justify-between items-center">
+            <p className="text-base font-normal text-dark">
+              Already have an account?
+            </p>
+            <Link to="/auth/signIn" className="text-primary cursor-pointer">
+              Sign in
+            </Link>
           </div>
         </div>
       </div>
