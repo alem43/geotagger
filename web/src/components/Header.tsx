@@ -11,7 +11,12 @@ export default function Header() {
 
   return (
     <>
-      <header className="w-full max-h-24 py-7.5 px-8.75 flex justify-between items-center bg-white">
+      <header
+        className="w-full max-h-24 py-7.5 px-8.75 flex justify-between items-center bg-white z-50"
+        style={{
+          boxShadow: `0px 0px 8px 100px #000000`,
+        }}
+      >
         <Link to="/">
           <img src={geotaggerLogo} alt="Geotagger Logo" />
         </Link>
