@@ -10,35 +10,34 @@ export const Route = createFileRoute('/auth/signUp')({
   component: RouteComponent,
 })
 
-const signUpValuesSchema = z
-  .object({
-    email: z.string().email(),
-    firstName: z
-      .string()
-      .min(3, 'First name must be at least 3 characters')
-      .max(255),
-    lastName: z
-      .string()
-      .min(3, 'Last name must be at least 3 characters')
-      .max(255),
-    password: z
-      .string()
-      .min(6, 'Password must be at least 6 characters')
-      .max(20),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
-  })
-
-type SignUpValues = z.infer<typeof signUpValuesSchema>
-
-/* const { register } = useForm<SignUpValues>({
-  resolver: zodResolver(signUpValuesSchema),
-}) */
-
 function RouteComponent() {
+  const signUpValuesSchema = z
+    .object({
+      email: z.string().email(),
+      firstName: z
+        .string()
+        .min(3, 'First name must be at least 3 characters')
+        .max(255),
+      lastName: z
+        .string()
+        .min(3, 'Last name must be at least 3 characters')
+        .max(255),
+      password: z
+        .string()
+        .min(6, 'Password must be at least 6 characters')
+        .max(20),
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: 'Passwords do not match',
+      path: ['confirmPassword'],
+    })
+
+  type SignUpValues = z.infer<typeof signUpValuesSchema>
+
+  const { register, handleSubmit } = useForm<SignUpValues>({
+    resolver: zodResolver(signUpValuesSchema),
+  })
   return (
     <div
       style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -57,40 +56,72 @@ function RouteComponent() {
           </p>
         </div>
         <img src={profilePictureDefault} alt="default pfp" />
-        <div className="flex flex-col gap-4 ">
+        <form
+          onSubmit={handleSubmit((data) => {
+            console.log(data)
+          })}
+          className="flex flex-col gap-4 "
+        >
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="input-label-form">
               Email
             </label>
-            <input type="text" className="input-field-form" />
+            <input
+              {...register('email')}
+              type="text"
+              className="input-field-form"
+              id="email"
+            />
           </div>
           <div className="flex gap-4">
             <div className="flex flex-col gap-2">
-              <label htmlFor="firstName" className="input-label-form">
+              <label htmlFor="first-name" className="input-label-form">
                 First name
               </label>
-              <input type="text" className="input-field-form" />
+              <input
+                {...register('firstName')}
+                type="text"
+                className="input-field-form"
+                id="first-name"
+              />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="lastName" className="input-label-form">
+              <label htmlFor="last-name" className="input-label-form">
                 Last name
               </label>
-              <input type="text" className="input-field-form" />
+              <input
+                {...register('lastName')}
+                type="text"
+                className="input-field-form"
+                id="last-name"
+              />
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="password" className="input-label-form">
               Password
             </label>
-            <input type="password" className="input-field-form" />
+            <input
+              {...register('password')}
+              type="password"
+              className="input-field-form"
+              id="password"
+            />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="password confirm" className="input-label-form">
+            <label htmlFor="password-confirm" className="input-label-form">
               Confirm password
             </label>
-            <input type="password" className="input-field-form" />
+            <input
+              {...register('confirmPassword')}
+              type="password"
+              className="input-field-form"
+              id="password-confirm"
+            />
           </div>
-          <button className="sign-up-primary">Sign up</button>
+          <button type="submit" className="sign-up-primary">
+            Sign up
+          </button>
           <div className="flex justify-between items-center">
             <p className="text-base font-normal text-dark">
               Already have an account?
@@ -99,7 +130,7 @@ function RouteComponent() {
               Sign in
             </Link>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )
