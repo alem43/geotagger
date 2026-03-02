@@ -118,3 +118,20 @@ code {
   font-weight: 400;
   cursor: pointer;
 }
+
+.input-label-form {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+.input-field-form {
+  width: 100%;
+  min-height: 2.5rem;
+  border-radius: 32px;
+  border: 2px solid var(--primary-color);
+  padding: 0.5rem, 1.875rem, 0.5rem, 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--dark-color);
+}

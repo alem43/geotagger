@@ -1,10 +1,41 @@
 import { createFileRoute } from '@tanstack/react-router'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import backgroundImage from '../../images/background-image.png'
 import profilePictureDefault from '../../images/profile-picture-default.png'
 
 export const Route = createFileRoute('/auth/signUp')({
   component: RouteComponent,
 })
+
+const signUpValuesSchema = z
+  .object({
+    email: z.string().email(),
+    firstName: z
+      .string()
+      .min(3, 'First name must be at least 3 characters')
+      .max(255),
+    lastName: z
+      .string()
+      .min(3, 'Last name must be at least 3 characters')
+      .max(255),
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters')
+      .max(20),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
+
+type SignUpValues = z.infer<typeof signUpValuesSchema>
+
+/* const { register } = useForm<SignUpValues>({
+  resolver: zodResolver(signUpValuesSchema),
+}) */
 
 function RouteComponent() {
   return (
@@ -25,6 +56,27 @@ function RouteComponent() {
           </p>
         </div>
         <img src={profilePictureDefault} alt="default pfp" />
+        <div className="flex flex-col gap-4 w-full">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="input-label-form">
+              Email
+            </label>
+            <input type="text" className="input-field-form" />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password" className="input-label-form">
+              Password
+            </label>
+            <input type="password" className="input-field-form" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password confirm" className="input-label-form">
+              Confirm password
+            </label>
+            <input type="password" className="input-field-form" />
+          </div>
+        </div>
       </div>
     </div>
   )
