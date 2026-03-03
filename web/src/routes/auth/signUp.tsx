@@ -35,16 +35,25 @@ function RouteComponent() {
 
   type SignUpValues = z.infer<typeof signUpValuesSchema>
 
-  const { register, handleSubmit } = useForm<SignUpValues>({
+  const ErrorText = ({ children }: { children?: string }) => (
+    <>{children && <p className="text-xs text-red-500 pt-1">{children}</p>}</>
+  )
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpValues>({
     resolver: zodResolver(signUpValuesSchema),
   })
+
   return (
     <div
       style={{ backgroundImage: `url(${backgroundImage})` }}
       className="bg-cover bg-center  px-8.75 pt-14 pb-24.75"
     >
       <div
-        className="flex bg-white max-w-86 rounded-4xl px-7.5 py-5 gap-4 flex-col items-center-safe mx-auto"
+        className="flex bg-white max-w-86 sm:max-w-118.75 rounded-4xl px-7.5 py-5 gap-4 flex-col items-center-safe mx-auto"
         style={{
           boxShadow: `0px 0px 8px 0px #00000026`,
         }}
@@ -55,7 +64,11 @@ function RouteComponent() {
             Your name will appear on posts and your public profle.
           </p>
         </div>
-        <img src={profilePictureDefault} alt="default pfp" />
+        <img
+          src={profilePictureDefault}
+          alt="default pfp"
+          className="cursor-pointer"
+        />
         <form
           onSubmit={handleSubmit((data) => {
             console.log(data)
@@ -72,6 +85,7 @@ function RouteComponent() {
               className="input-field-form"
               id="email"
             />
+            <ErrorText>{errors.email?.message}</ErrorText>
           </div>
           <div className="flex gap-4">
             <div className="flex flex-col gap-2">
@@ -84,6 +98,7 @@ function RouteComponent() {
                 className="input-field-form"
                 id="first-name"
               />
+              <ErrorText>{errors.firstName?.message}</ErrorText>
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="last-name" className="input-label-form">
@@ -95,6 +110,7 @@ function RouteComponent() {
                 className="input-field-form"
                 id="last-name"
               />
+              <ErrorText>{errors.lastName?.message}</ErrorText>
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -107,6 +123,7 @@ function RouteComponent() {
               className="input-field-form"
               id="password"
             />
+            <ErrorText>{errors.password?.message}</ErrorText>
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="password-confirm" className="input-label-form">
@@ -118,6 +135,7 @@ function RouteComponent() {
               className="input-field-form"
               id="password-confirm"
             />
+            <ErrorText>{errors.confirmPassword?.message}</ErrorText>
           </div>
           <button type="submit" className="sign-up-primary">
             Sign up
