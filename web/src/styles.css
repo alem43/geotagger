@@ -28,56 +28,58 @@ code {
   color: var(--primary-color);
 }
 
-.header-h1 {
-  font-family: 'Raleway', sans-serif;
-  font-size: 6.125rem;
-  font-weight: 300;
-  letter-spacing: -1.5px;
-}
+@layer utilities {
+  .header-h1 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 6.125rem;
+    font-weight: 300;
+    letter-spacing: -1.5px;
+  }
 
-.header-h2 {
-  font-family: 'Raleway', sans-serif;
-  font-size: 3.813rem;
-  font-weight: 300;
-  letter-spacing: -0.5px;
-}
+  .header-h2 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 3.813rem;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+  }
 
-.header-h3 {
-  font-family: 'Raleway', sans-serif;
-  font-size: 3.063rem;
-  font-weight: 500;
-}
+  .header-h3 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 3.063rem;
+    font-weight: 500;
+  }
 
-.header-h4 {
-  font-family: 'Raleway', sans-serif;
-  font-size: 2.188rem;
-  font-weight: 500;
-  letter-spacing: 0.25px;
-}
+  .header-h4 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 2.188rem;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+  }
 
-.header-h5 {
-  font-family: 'Raleway', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-}
+  .header-h5 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
 
-.body-p {
-  font-family: 'Raleway', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-}
+  .body-p {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+  }
 
-.body-p-bold {
-  font-family: 'Raleway', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-}
+  .body-p-bold {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+  }
 
-.caption {
-  font-family: 'Raleway', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.4px;
+  .caption {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+  }
 }
 
 .sign-up-primary {
