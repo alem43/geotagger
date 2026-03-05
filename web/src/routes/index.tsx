@@ -8,6 +8,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import Header from '@/components/Header'
 
 export const Route = createFileRoute('/')({ component: App })
 
@@ -23,6 +24,7 @@ function App() {
 
   return (
     <>
+      <Header />
       <p className="header-h1">Proba</p>
     </>
   )

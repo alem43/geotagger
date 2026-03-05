@@ -12,7 +12,7 @@ export default function Header() {
   return (
     <>
       <header
-        className="w-full max-h-24 py-7.5 px-8.75 flex justify-between items-center bg-white z-10 xl:shadow-none"
+        className="w-full max-h-24 py-7.5 px-8.75 flex justify-between items-center bg-white z-10 xl:shadow-none "
         style={{
           boxShadow: `0px 0px 8px 0px #00000026`,
         }}
