@@ -61,14 +61,13 @@ function RouteComponent() {
         style={{ backgroundImage: `url(${backgroundImage})` }}
         className="bg-cover bg-center xl:p-0 px-8.75 pt-14 pb-24.75"
       >
-        <div className="absolute top-0 right-0 w-full max-w-205 h-screen z-50 flex items-center-safe justify-center">
-          {/* <img
-          src={backgroundImageBig}
-          alt="background image big"
-          className="absolute top-0 right-0 w-full max-w-205 h-screen z-30 flex items-center-safe justify-center"
-        />
-        <img src={logoBig} alt="big logo relative z-40" /> */}
-        </div>
+        {/* <div className="absolute top-0 right-0 w-full max-w-205 h-screen z-50 flex items-center-safe justify-center">
+          <img
+            src={backgroundImageBig}
+            alt="background image big"
+            className="absolute top-0 right-0 w-full max-w-205 h-screen z-30 flex items-center-safe justify-center"
+          />
+        </div> */}
 
         <div
           className="flex bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:h-screen xl:rounded-none xl:mx-0   rounded-4xl px-7.5 py-5 gap-4 flex-col items-center-safe mx-auto"
@@ -77,7 +76,9 @@ function RouteComponent() {
           }}
         >
           <div className="flex flex-col gap-2 items-center-safe  xl:mt-25.5">
-            <h2 className="header-h4 text-dark xl:header-h3">Sign up</h2>
+            <h2 className="header-h4 text-[2.188rem] text-dark xl:text-[3.0625rem]">
+              Sign up
+            </h2>
             <p className="body-p text-center" style={{ color: `#322D38` }}>
               Your name will appear on posts and your public profle.
             </p>
