@@ -63,12 +63,7 @@ function RouteComponent() {
         style={{ backgroundImage: `url(${backgroundImage})` }}
         className="bg-cover bg-center xl:p-0 px-8.75 pt-14 pb-24.75 max-w-360 mx-auto flex "
       >
-        <div
-          className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl pt-11.5 pl-17.5 gap-28 flex-col mx-auto"
-          style={{
-            boxShadow: `0px 0px 8px 0px #00000026`,
-          }}
-        >
+        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl pt-11.5 pl-17.5 gap-28 flex-col box-shadow">
           <Link to="/">
             <img
               src={geotaggerLogo}
@@ -184,18 +179,6 @@ function RouteComponent() {
             className="absolute top-0 left-0 w-full h-full"
           />
         </div>
-        {/* <div className="relative w-full h-screen z-50 flex items-center-safe justify-center">
-          <img
-            src={backgroundImageBig}
-            alt="background image big"
-            className="absolute top-0 right-0 z-30 flex items-center-safe justify-center"
-          />
-          <img
-            src={logoBig}
-            alt="Big logo"
-            className="relative z-30 w-full max-w-[12.64rem] h-full max-h-73.5"
-          />
-        </div> */}
       </div>
     </>
   )
