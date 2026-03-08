@@ -10,6 +10,7 @@ import profilePictureDefault from '../../images/profile-picture-default.png'
 import mobileProfilePictureDefault from '../../images/mobile-profile-picture-default.svg'
 import geotaggerLogo from '../../images/geotagger-logo.svg'
 import logoBig from '../../images/logo-big.png'
+import geotaggerPatter from '../../images/geotagger-patern.png'
 
 export const Route = createFileRoute('/auth/signUp')({
   component: RouteComponent,
@@ -63,7 +64,7 @@ function RouteComponent() {
         className="bg-cover bg-center xl:p-0 px-8.75 pt-14 pb-24.75 max-w-360 mx-auto flex "
       >
         <div
-          className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl pt-11.5 pl-17.5 gap-28 flex-col mx-auto"
+          className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl pt-11.5 pl-17.5 gap-28 flex-col mx-auto"
           style={{
             boxShadow: `0px 0px 8px 0px #00000026`,
           }}
@@ -171,6 +172,17 @@ function RouteComponent() {
               </div>
             </form>
           </div>
+        </div>
+        <div
+          className="relative w-full h-screen flex justify-center-safe items-center-safe bg-cover bg-center"
+          style={{ backgroundImage: `url(${backgroundImageBig})` }}
+        >
+          <img src={logoBig} alt="big logo" />
+          <img
+            src={geotaggerPatter}
+            alt="geotagger pattern"
+            className="absolute top-0 left-0 w-full h-full"
+          />
         </div>
         {/* <div className="relative w-full h-screen z-50 flex items-center-safe justify-center">
           <img
