@@ -75,7 +75,7 @@ function RouteComponent() {
               className="cursor-pointer w-full max-w-42.75"
             />
           </Link>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center w-max pl-10.5">
             <div className="flex flex-col gap-2 xl:gap-4 items-center-safe  ">
               <h2 className="header-h4 text-[2.188rem] text-dark xl:text-[3.0625rem]">
                 Sign up
@@ -90,7 +90,7 @@ function RouteComponent() {
             <img
               src={profilePictureDefault}
               alt="default pfp"
-              className="cursor-pointer max-w-16"
+              className="cursor-pointer w-16 h-16 my-4"
             />
             <form
               onSubmit={handleSubmit((data) => {
@@ -164,9 +164,7 @@ function RouteComponent() {
                 Sign up
               </button>
               <div className="flex justify-between items-center">
-                <p className="text-base font-normal text-dark">
-                  Already have an account?
-                </p>
+                <p className="body-p text-dark">Already have an account?</p>
                 <Link to="/auth/signIn" className="text-primary cursor-pointer">
                   Sign in
                 </Link>
