@@ -61,9 +61,9 @@ function RouteComponent() {
 
       <div
         style={{ backgroundImage: `url(${backgroundImage})` }}
-        className="bg-cover bg-center xl:p-0 px-8.75 pt-14 pb-24.75 max-w-360 mx-auto flex "
+        className="bg-cover bg-center xl:p-0 px-8.75  max-w-360 mx-auto flex justify-center items-center h-screen"
       >
-        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow">
+        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow max-h-107.25 xl:max-h-screen">
           <Link to="/" className="hidden xl:block">
             <img
               src={geotaggerLogo}
@@ -71,13 +71,13 @@ function RouteComponent() {
               className="cursor-pointer w-full max-w-42.75"
             />
           </Link>
-          <div className="flex flex-col items-center w-max max-w-full px-7.5 py-5 xl:pl-10.5">
+          <div className="flex flex-col items-center w-max max-w-full px-7.5 py-5 xl:pl-10.5 xl:mx-auto">
             <div className="flex flex-col gap-2 xl:gap-4 items-center-safe  ">
               <h2 className="header-h4 text-[2.188rem] text-dark xl:text-[3.0625rem]">
                 Sign in
               </h2>
               <p
-                className="body-p text-center xl:max-w-101.25"
+                className="body-p text-center xl:max-w-100 xl:mb-4"
                 style={{ color: `#322D38` }}
               >
                 Welcome back to Geotagger. We are glad that you are back.
@@ -87,7 +87,7 @@ function RouteComponent() {
               onSubmit={handleSubmit((data) => {
                 console.log(data)
               })}
-              className="flex flex-col gap-4 max-w-105"
+              className="flex flex-col gap-4 max-w-105 xl:w-full "
             >
               <div className="flex flex-col gap-2">
                 <label htmlFor="email" className="input-label-form">
@@ -120,7 +120,10 @@ function RouteComponent() {
                 <p className="body-p text-dark">
                   Do you want to create an account?
                 </p>
-                <Link to="/auth/signUp" className="text-primary cursor-pointer">
+                <Link
+                  to="/auth/signUp"
+                  className="text-primary cursor-pointer w-15.25"
+                >
                   Sign up
                 </Link>
               </div>
