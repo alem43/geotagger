@@ -44,7 +44,7 @@ export default function Header() {
             isOpen ? 'translate-y-0' : '-translate-y-full'
           }`}
         >
-          <div className="flex flex-col mx-auto w-full md:hidden">
+          <div className="flex flex-col w-full md:hidden">
             <button className=" max-h-10 flex justify-end-safe">
               <img
                 src={xIcon}

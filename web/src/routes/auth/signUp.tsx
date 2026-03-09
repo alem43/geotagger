@@ -55,7 +55,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="xl:hidden">
+      <div className="xl:hidden w-full">
         <Header />
       </div>
 
@@ -63,15 +63,15 @@ function RouteComponent() {
         style={{ backgroundImage: `url(${backgroundImage})` }}
         className="bg-cover bg-center xl:p-0 px-8.75 pt-14 pb-24.75 max-w-360 mx-auto flex "
       >
-        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl pt-11.5 pl-17.5 gap-28 flex-col box-shadow">
-          <Link to="/">
+        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow">
+          <Link to="/" className="hidden xl:block">
             <img
               src={geotaggerLogo}
               alt="Geotagger logo"
               className="cursor-pointer w-full max-w-42.75"
             />
           </Link>
-          <div className="flex flex-col items-center w-max pl-10.5">
+          <div className="flex flex-col items-center w-max max-w-full px-7.5 py-5 xl:pl-10.5">
             <div className="flex flex-col gap-2 xl:gap-4 items-center-safe  ">
               <h2 className="header-h4 text-[2.188rem] text-dark xl:text-[3.0625rem]">
                 Sign up
@@ -83,11 +83,17 @@ function RouteComponent() {
                 Your name will appear on posts and your public profle.
               </p>
             </div>
-            <img
-              src={profilePictureDefault}
-              alt="default pfp"
-              className="cursor-pointer w-16 h-16 my-4"
-            />
+            <picture>
+              <source
+                media="(min-width: 1280px)"
+                srcSet={mobileProfilePictureDefault}
+              />
+              <img
+                src={profilePictureDefault}
+                alt="hero"
+                className="w-full h-full object-cover"
+              />
+            </picture>
             <form
               onSubmit={handleSubmit((data) => {
                 console.log(data)
@@ -169,7 +175,7 @@ function RouteComponent() {
           </div>
         </div>
         <div
-          className="relative w-full h-screen flex justify-center-safe items-center-safe bg-cover bg-center"
+          className="relative w-full h-screen xl:flex justify-center-safe items-center-safe bg-cover bg-center hidden"
           style={{ backgroundImage: `url(${backgroundImageBig})` }}
         >
           <img src={logoBig} alt="big logo" />
