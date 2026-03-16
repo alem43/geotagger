@@ -108,6 +108,14 @@ code {
   color: white;
   justify-content: center;
   cursor: pointer;
+  transition: background 300ms ease-in-out;
+}
+
+.sign-up-primary:hover {
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  padding: 0.4rem 1rem;
+  background: white;
 }
 
 .sign-in-primary {
@@ -120,6 +128,35 @@ code {
   font-size: 1rem;
   font-weight: 400;
   cursor: pointer;
+  background-color: white;
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
+}
+
+.sign-in-primary:hover {
+  background: #659e89;
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(101, 158, 137, 1) 0%,
+    rgba(97, 155, 138, 1) 50%,
+    rgba(161, 193, 129, 1) 100%
+  );
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(101, 158, 137, 1) 0%,
+    rgba(97, 155, 138, 1) 50%,
+    rgba(161, 193, 129, 1) 100%
+  );
+  background: linear-gradient(
+    90deg,
+    rgba(101, 158, 137, 1) 0%,
+    rgba(97, 155, 138, 1) 50%,
+    rgba(161, 193, 129, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#659E89", endColorstr="#A1C181", GradientType=1);
+  color: white;
+  border: 2px solid rgba(101, 158, 137, 0);
 }
 
 .input-label-form {
@@ -147,4 +184,23 @@ code {
   .box-shadow {
     box-shadow: none;
   }
+}
+
+.gradient-background {
+  background: linear-gradient(
+    90deg,
+    rgba(102, 159, 137, 0.6) 50%,
+    rgba(159, 193, 129, 0.6) 128%
+  );
+}
+
+.gradient-footer {
+  background: linear-gradient(90deg, #659e89 0%, #619b8a 32.12%, #a1c181 100%);
+}
+
+.text-footer {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: white;
 }

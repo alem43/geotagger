@@ -91,7 +91,7 @@ function RouteComponent() {
               <img
                 src={profilePictureDefault}
                 alt="hero"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
               />
             </picture>
             <form
