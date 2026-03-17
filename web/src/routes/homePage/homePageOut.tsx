@@ -22,8 +22,8 @@ function RouteComponent() {
   return (
     <>
       <Header />
-      <div className="flex flex-col xl:flex-row gap-10.5 mb-21.75">
-        <div className="flex flex-col gap-4 xl:gap-0 mx-auto text-center xl:text-start px-10 items-center xl:items-start justify-center xl:max-w-104.75">
+      <div className="flex flex-col xl:flex-row gap-10.5 mb-21.75 xl:items-center">
+        <div className="flex flex-col gap-4 xl:gap-0 mx-auto xl:mx-0 text-center xl:text-start px-10 xl:pl-25.25 xl:pr-0 items-center xl:items-start xl:justify-center max-w-123">
           <h1 className="header-h4 text-[2.1875rem] xl:text-[3.8125rem] xl:leading-17.5 xl:-tracking-[0.03125rem] text-primary mt-12 ">
             Explore the world with Geotagger!
           </h1>
@@ -40,19 +40,14 @@ function RouteComponent() {
         </div>
         <div
           style={{ backgroundImage: `url(${worldMapBackground})` }}
-          className="bg-cover bg-center relative mx-auto w-[92.3%] h-53.75"
+          className="bg-cover bg-center relative mx-auto w-[92.3%] min-h-53.75 xl:h-110 xl:w-207.75"
         >
-          {/* <img
-            src={worldImage1}
-            alt="world image"
-            className="absolute top-4 left-6"
-          /> */}
           <picture>
             <source media="(min-width: 1280px)" srcSet={worldImage1Desktop} />
             <img
               src={worldImage1}
               alt="world image"
-              className="absolute top-4 left-6"
+              className="absolute top-0 left-[5%] xl:left-0 xl:top-[9%]"
             />
           </picture>
           <picture>
@@ -60,7 +55,7 @@ function RouteComponent() {
             <img
               src={worldImage2}
               alt="world image"
-              className="absolute top-4 left-6"
+              className="absolute top-[25%] right-0"
             />
           </picture>
           <picture>
@@ -68,7 +63,7 @@ function RouteComponent() {
             <img
               src={worldImage3}
               alt="world image"
-              className="absolute top-4 left-6"
+              className="absolute bottom-[5%] left-[10%]"
             />
           </picture>
         </div>
