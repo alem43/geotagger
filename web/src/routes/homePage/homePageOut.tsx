@@ -40,7 +40,7 @@ function RouteComponent() {
         </div>
         <div
           style={{ backgroundImage: `url(${worldMapBackground})` }}
-          className="bg-cover bg-center relative mx-auto w-[92.3%] min-h-53.75 xl:h-110 xl:w-207.75"
+          className="bg-cover bg-center relative mx-auto xl:mx-0 w-[92.3%] min-h-53.75 xl:h-110 xl:w-220"
         >
           <picture>
             <source media="(min-width: 1280px)" srcSet={worldImage1Desktop} />
@@ -55,7 +55,7 @@ function RouteComponent() {
             <img
               src={worldImage2}
               alt="world image"
-              className="absolute top-[25%] right-0"
+              className="absolute top-[25%] right-0 xl:top-[35%]"
             />
           </picture>
           <picture>
@@ -63,25 +63,25 @@ function RouteComponent() {
             <img
               src={worldImage3}
               alt="world image"
-              className="absolute bottom-[5%] left-[10%]"
+              className="absolute bottom-[5%] left-[10%] xl:left-[20%] xl:bottom-0"
             />
           </picture>
         </div>
       </div>
       <div className="flex flex-col gap-2 mx-auto text-center px-8.5 mb-18">
-        <h1 className="header-h5 text-[2.1875rem] text-primary">
+        <h1 className="header-h5 text-[1.5rem] xl:text-[2.1875rem] xl:tracking-[0.0156rem] text-primary">
           Try yourself at Geotagger!
         </h1>
-        <p className="body-p text-dark">
+        <p className="body-p text-dark xl:max-w-136 xl:mx-auto">
           Try to guess the location of image by selecting position on the map.
           When you guess it, it gives you the error distance.
         </p>
       </div>
-      <div className="flex flex-col gap-[2.685rem] px-8.75 mb-9.75">
-        <div className="flex flex-col gap-6 w-full h-156.75">
+      <div className="flex flex-col gap-[2.685rem] px-8.75 mb-9.75 xl:mb-27">
+        <div className="flex flex-col xl:flex-row gap-6 xl:gap-4.75 w-full xl:max-w-324.5 xl:mx-auto h-156.75 xl:max-h-58.75">
           <div
             style={{ backgroundImage: `url(${tryBackgroundImage1})` }}
-            className="bg-cover bg-center w-full h-full max-h-48.25 rounded-2xl overflow-hidden"
+            className="bg-cover bg-center flex-1 max-h-48.25 xl:min-h-58.75 rounded-2xl overflow-hidden"
           >
             <div className="w-full h-full gradient-background flex items-center-safe justify-center-safe">
               <img src={padlockVector} alt="padlock" />
@@ -89,7 +89,7 @@ function RouteComponent() {
           </div>
           <div
             style={{ backgroundImage: `url(${tryBackgroundImage2})` }}
-            className="bg-cover bg-center w-full h-full max-h-48.25 rounded-2xl"
+            className="bg-cover bg-center flex-1 max-h-48.25 xl:min-h-58.75 rounded-2xl overflow-hidden"
           >
             <div className="w-full h-full gradient-background flex items-center-safe justify-center-safe">
               <img src={padlockVector} alt="padlock" />
@@ -97,7 +97,7 @@ function RouteComponent() {
           </div>
           <div
             style={{ backgroundImage: `url(${tryBackgroundImage3})` }}
-            className="bg-cover bg-center w-full h-full max-h-48.25 rounded-2xl"
+            className="bg-cover bg-center flex-1 max-h-48.25 xl:min-h-58.75 rounded-2xl overflow-hidden"
           >
             <div className="w-full h-full gradient-background flex items-center-safe justify-center-safe">
               <img src={padlockVector} alt="padlock" />
