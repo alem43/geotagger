@@ -27,7 +27,7 @@ function RouteComponent() {
           <h1 className="header-h4 text-[2.1875rem] xl:text-[3.8125rem] xl:leading-17.5 xl:-tracking-[0.03125rem] text-primary mt-12 ">
             Explore the world with Geotagger!
           </h1>
-          <p className="body-p text-dark mb-8 xl:mb-4 xl:mt-8">
+          <p className="body-p text-dark mb-8 md:mb-4 xl:mt-8">
             Geotagger is webiste that allowes you to post picture and tag it on
             the map. Other user than try to locate it via Google Maps.
           </p>
@@ -47,7 +47,7 @@ function RouteComponent() {
             <img
               src={worldImage1}
               alt="world image"
-              className="absolute top-0 left-[5%] xl:left-0 xl:top-[9%]"
+              className="absolute top-0 left-[5%] lg:left-[15%] xl:left-0 xl:top-[9%] sm:scale-125 md:scale-150 lg:scale-[175%]"
             />
           </picture>
           <picture>
@@ -55,7 +55,7 @@ function RouteComponent() {
             <img
               src={worldImage2}
               alt="world image"
-              className="absolute top-[25%] right-0 xl:top-[35%]"
+              className="absolute top-[25%] right-0 xl:top-[35%] sm:scale-125 md:scale-150 lg:scale-[175%] sm:right-[3%] md:right-[7%] lg:right-[17.5%]"
             />
           </picture>
           <picture>
@@ -63,7 +63,7 @@ function RouteComponent() {
             <img
               src={worldImage3}
               alt="world image"
-              className="absolute bottom-[5%] left-[10%] xl:left-[20%] xl:bottom-0"
+              className="absolute bottom-[5%] left-[10%] lg:left-[20%] xl:left-[20%] xl:bottom-0 sm:scale-125 md:scale-150 lg:scale-[175%]"
             />
           </picture>
         </div>
@@ -77,8 +77,8 @@ function RouteComponent() {
           When you guess it, it gives you the error distance.
         </p>
       </div>
-      <div className="flex flex-col gap-[2.685rem] px-8.75 mb-9.75 xl:mb-27">
-        <div className="flex flex-col xl:flex-row gap-6 xl:gap-4.75 w-full xl:max-w-324.5 xl:mx-auto h-156.75 xl:max-h-58.75">
+      <div className="flex flex-col gap-[2.685rem] xl:gap-20 px-8.75 mb-9.75 xl:mb-27">
+        <div className="flex flex-col lg:flex-row gap-6 xl:gap-4.75 w-full xl:max-w-324.5 xl:mx-auto h-156.75 lg:max-h-58.75">
           <div
             style={{ backgroundImage: `url(${tryBackgroundImage1})` }}
             className="bg-cover bg-center flex-1 max-h-48.25 xl:min-h-58.75 rounded-2xl overflow-hidden"
