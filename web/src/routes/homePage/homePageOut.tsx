@@ -23,7 +23,7 @@ function RouteComponent() {
     <>
       <Header />
       <div className="flex flex-col xl:flex-row gap-10.5 mb-21.75 xl:items-center">
-        <div className="flex flex-col gap-4 xl:gap-0 mx-auto xl:mx-0 text-center xl:text-start px-10 xl:pl-25.25 xl:pr-0 items-center xl:items-start xl:justify-center max-w-123">
+        <div className="flex flex-col gap-4 xl:gap-0 mx-auto xl:mx-0 text-center xl:text-start px-10 xl:pl-25.25 xl:pr-0 items-center xl:items-start xl:justify-center max-w-123 lg:max-w-170 xl:max-w-123">
           <h1 className="header-h4 text-[2.1875rem] xl:text-[3.8125rem] xl:leading-17.5 xl:-tracking-[0.03125rem] text-primary mt-12 ">
             Explore the world with Geotagger!
           </h1>
