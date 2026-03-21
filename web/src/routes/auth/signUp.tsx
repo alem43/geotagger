@@ -48,7 +48,7 @@ function RouteComponent() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignUpValues>({
     resolver: zodResolver(signUpValuesSchema),
   })
@@ -95,8 +95,26 @@ function RouteComponent() {
               />
             </picture>
             <form
-              onSubmit={handleSubmit((data) => {
-                console.log(data)
+              onSubmit={handleSubmit(async (data) => {
+                try {
+                  const response = await fetch(
+                    'http://localhost:8787/auth/register',
+                    {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data),
+                    },
+                  )
+
+                  if (response.ok) {
+                    const message = await response.text()
+                    console.log('Success:', message)
+                  } else {
+                    console.error('Not registered')
+                  }
+                } catch (error) {
+                  console.error('Network error:', error)
+                }
               })}
               className="flex flex-col gap-4 max-w-105"
             >
@@ -162,7 +180,11 @@ function RouteComponent() {
                 />
                 <ErrorText>{errors.confirmPassword?.message}</ErrorText>
               </div>
-              <button type="submit" className="sign-up-primary">
+              <button
+                type="submit"
+                className="sign-up-primary"
+                disabled={isSubmitting}
+              >
                 Sign up
               </button>
               <div className="flex justify-between items-center">

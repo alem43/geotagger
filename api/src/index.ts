@@ -10,8 +10,11 @@ import healthRoute from "./routes/health-route.js";
 import authRoute from "./routes/auth-route.js";
 import meRoute from "./routes/me-route.js";
 import geotagsRoute from "./routes/geotags-route.js";
+import {logger} from "hono/logger";
 
 const app = new Hono();
+
+app.use("*", logger());
 
 app.use(
   "*",

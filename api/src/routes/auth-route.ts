@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import {db} from "../db/db.js";
 import {users, sessions} from "../db/schema.js";
 import {eq} from "drizzle-orm";
+import crypto from "node:crypto";
 
 const authRoute = new Hono();
 
@@ -13,7 +14,7 @@ authRoute.post("/register", async (c) => {
     return c.text("Credentials not valid", 400);
 
   const existing = await db.select().from(users).where(eq(users.email, email));
-  if (existing.length > 0) c.text("User already existing!", 400);
+  if (existing.length > 0) return c.text("User already existing!", 400);
 
   const passwordHash = await bcrypt.hash(password, 10);
 
