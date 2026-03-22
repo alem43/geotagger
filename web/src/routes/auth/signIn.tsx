@@ -17,29 +17,15 @@ export const Route = createFileRoute('/auth/signIn')({
 })
 
 function RouteComponent() {
-  const signUpValuesSchema = z
-    .object({
-      email: z.string().email(),
-      firstName: z
-        .string()
-        .min(3, 'First name must be at least 3 characters')
-        .max(255),
-      lastName: z
-        .string()
-        .min(3, 'Last name must be at least 3 characters')
-        .max(255),
-      password: z
-        .string()
-        .min(6, 'Password must be at least 6 characters')
-        .max(20),
-      confirmPassword: z.string(),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: 'Passwords do not match',
-      path: ['confirmPassword'],
-    })
+  const signInValuesSchema = z.object({
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .max(20),
+  })
 
-  type SignUpValues = z.infer<typeof signUpValuesSchema>
+  type SignInValues = z.infer<typeof signInValuesSchema>
 
   const ErrorText = ({ children }: { children?: string }) => (
     <>{children && <p className="text-xs text-red-500 pt-1">{children}</p>}</>
@@ -49,8 +35,8 @@ function RouteComponent() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpValues>({
-    resolver: zodResolver(signUpValuesSchema),
+  } = useForm<SignInValues>({
+    resolver: zodResolver(signInValuesSchema),
   })
 
   return (
@@ -61,9 +47,9 @@ function RouteComponent() {
 
       <div
         style={{ backgroundImage: `url(${backgroundImage})` }}
-        className="bg-cover bg-center xl:p-0 px-8.75  max-w-360 mx-auto flex justify-center items-center h-screen"
+        className="bg-cover bg-center xl:p-0 px-8.75  max-w-360 mx-auto flex justify-center h-screen"
       >
-        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow max-h-107.25 xl:max-h-screen">
+        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow max-h-107.25 xl:max-h-screen mt-44.75">
           <Link to="/" className="hidden xl:block">
             <img
               src={geotaggerLogo}
@@ -71,8 +57,8 @@ function RouteComponent() {
               className="cursor-pointer w-full max-w-42.75"
             />
           </Link>
-          <div className="flex flex-col items-center w-max max-w-full px-7.5 py-5 xl:pl-10.5 xl:mx-auto">
-            <div className="flex flex-col gap-2 xl:gap-4 items-center-safe  ">
+          <div className="flex flex-col items-center w-max max-w-full px-7.5 py-5 xl:pl-10.5 mx-auto">
+            <div className="flex flex-col gap-2 xl:gap-4 items-center-safe mb-4">
               <h2 className="header-h4 text-[2.188rem] text-dark xl:text-[3.0625rem]">
                 Sign in
               </h2>
@@ -84,8 +70,27 @@ function RouteComponent() {
               </p>
             </div>
             <form
-              onSubmit={handleSubmit((data) => {
-                console.log(data)
+              onSubmit={handleSubmit(async (data) => {
+                try {
+                  const response = await fetch(
+                    'http://localhost:8787/auth/login',
+                    {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data),
+                      credentials: 'include',
+                    },
+                  )
+
+                  if (response.ok) {
+                    const message = await response.text()
+                    console.log('Success:', message)
+                  } else {
+                    console.error('Not logged in')
+                  }
+                } catch (error) {
+                  console.error('Network error:', error)
+                }
               })}
               className="flex flex-col gap-4 max-w-105 xl:w-full "
             >
