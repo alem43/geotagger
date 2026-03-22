@@ -41,7 +41,7 @@ authRoute.post("/login", async (c) => {
   const user = result[0];
 
   const passwordIsValid = await bcrypt.compare(password, user.passwordHash);
-  if (!passwordIsValid) return c.text("Invalid credeintals", 401);
+  if (!passwordIsValid) return c.text("Invalid credentials", 401);
 
   const sessionToken = crypto.randomUUID();
 

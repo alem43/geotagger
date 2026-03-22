@@ -1,4 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -39,6 +41,9 @@ function RouteComponent() {
     resolver: zodResolver(signInValuesSchema),
   })
 
+  const [serverError, setServerError] = useState('')
+  const navigate = useNavigate()
+
   return (
     <>
       <div className="xl:hidden w-full">
@@ -49,7 +54,7 @@ function RouteComponent() {
         style={{ backgroundImage: `url(${backgroundImage})` }}
         className="bg-cover bg-center xl:p-0 px-8.75  max-w-360 mx-auto flex justify-center h-screen"
       >
-        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow max-h-107.25 xl:max-h-screen mt-44.75">
+        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow max-h-max xl:max-h-screen mt-44.75">
           <Link to="/" className="hidden xl:block">
             <img
               src={geotaggerLogo}
@@ -81,12 +86,12 @@ function RouteComponent() {
                       credentials: 'include',
                     },
                   )
-
                   if (response.ok) {
                     const message = await response.text()
                     console.log('Success:', message)
+                    navigate({ to: '/homePage/homePageIn' })
                   } else {
-                    console.error('Not logged in')
+                    setServerError('Invalid email or password')
                   }
                 } catch (error) {
                   console.error('Network error:', error)
@@ -121,6 +126,7 @@ function RouteComponent() {
               <button type="submit" className="sign-in-primary">
                 Sign in
               </button>
+              <p className="text-red-700">{serverError}</p>
               <div className="flex justify-between items-center">
                 <p className="body-p text-dark">
                   Do you want to create an account?
