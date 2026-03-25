@@ -5,6 +5,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link } from '@tanstack/react-router'
+import { useAuth } from '@/contexts/AuthContext'
 import Header from '@/components/Header'
 import backgroundImage from '../../images/background-image.png'
 import backgroundImageBig from '../../images/background-image-bigscreen.png'
@@ -43,6 +44,8 @@ function RouteComponent() {
 
   const [serverError, setServerError] = useState('')
   const navigate = useNavigate()
+
+  const { setIsSignedIn } = useAuth()
 
   return (
     <>
@@ -89,6 +92,7 @@ function RouteComponent() {
                   if (response.ok) {
                     const message = await response.text()
                     console.log('Success:', message)
+                    setIsSignedIn(true)
                     navigate({ to: '/homePage/homePageIn' })
                   } else {
                     setServerError('Invalid email or password')

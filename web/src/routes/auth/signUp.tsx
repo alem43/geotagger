@@ -3,6 +3,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link } from '@tanstack/react-router'
+import { useAuth } from '@/contexts/AuthContext'
 import Header from '@/components/Header'
 import backgroundImage from '../../images/background-image.png'
 import backgroundImageBig from '../../images/background-image-bigscreen.png'
@@ -52,6 +53,8 @@ function RouteComponent() {
   } = useForm<SignUpValues>({
     resolver: zodResolver(signUpValuesSchema),
   })
+
+  const { setIsSignedIn } = useAuth()
 
   return (
     <>
@@ -109,6 +112,11 @@ function RouteComponent() {
                   if (response.ok) {
                     const message = await response.text()
                     console.log('Success:', message)
+                    const [user] = useState<User>({
+                      isSignedIn: true,
+                    })
+                    setIsSignedIn(true)
+                    navigate({ to: '/homePage/homePageIn' })
                   } else {
                     console.error('Not registered')
                   }

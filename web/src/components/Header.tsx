@@ -1,13 +1,23 @@
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
-import { Home, Menu, X } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+import { useAuth } from '../contexts/AuthContext'
 import geotaggerLogo from '../images/geotagger-logo.svg'
 import hamburgerMenuIcon from '../images/hamburger-menu-icon.svg'
 import xIcon from '../images/icon-x.svg'
 import arrowRight from '../images/arrow-right.svg'
+import arrowRightGreen from '../images/arrow-right-green.svg'
+import mobileProfilePictureDefault from '../images/mobile-profile-picture-default.svg'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const { isSignedIn, setIsSignedIn } = useAuth()
+  const navigate = useNavigate()
+
+  const handleSignOut = () => {
+    setIsSignedIn(false)
+    navigate({ to: '/' })
+  }
 
   return (
     <>
@@ -23,17 +33,34 @@ export default function Header() {
               alt="Hamburger menu icon"
             />
           </button>
+
           <div className="hidden gap-4 items-center-safe w-full max-w-60 md:flex">
-            <Link to="/auth/signIn" className="body-p-bold text-dark">
-              Sign in
-            </Link>
-            <p className="body-p text-dark">or</p>
-            <Link
-              to="/auth/signUp"
-              className="sign-up-primary w-full max-w-34.25"
-            >
-              Sign up
-            </Link>
+            {isSignedIn ? (
+              <div className="flex w-full justify-between items-center-safe max-w-59.75">
+                <p className="body-p text-dark">Home</p>
+                <p className="body-p text-dark" onClick={handleSignOut}>
+                  Logout
+                </p>
+                <img
+                  src={mobileProfilePictureDefault}
+                  alt="hero"
+                  className="w-full h-full max-w-10 max-h-10 object-cover cursor-pointer"
+                />
+              </div>
+            ) : (
+              <>
+                <Link to="/auth/signIn" className="body-p-bold text-dark">
+                  Sign in
+                </Link>
+                <p className="body-p text-dark">or</p>
+                <Link
+                  to="/auth/signUp"
+                  className="sign-up-primary w-full max-w-34.25"
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
           </div>
           <nav
             className={`w-full py-7 px-8.75 fixed top-0 left-0 bg-white z-20 transform transition-transform duration-300 ease-in-out ${
@@ -49,29 +76,73 @@ export default function Header() {
                   className="cursor-pointer -mr-2"
                 />
               </button>
-              <Link
-                to="/"
-                className="header-h5 mt-6.25 mb-10.75 flex  justify-between items-center "
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-                <img src={arrowRight} alt="Arrow to right" className="mr-4" />
-              </Link>
 
-              <Link
-                to="/auth/signUp"
-                onClick={() => setIsOpen(false)}
-                className="sign-up-primary mb-6"
-              >
-                Sign up
-              </Link>
-              <Link
-                to="/auth/signIn"
-                onClick={() => setIsOpen(false)}
-                className="sign-in-primary"
-              >
-                Sign in
-              </Link>
+              {isSignedIn ? (
+                <>
+                  <div className="flex items-center-safe mb-12.5">
+                    <img
+                      src={mobileProfilePictureDefault}
+                      alt="profile picture"
+                      className="w-full h-full max-w-12 max-h-12 mr-7.5"
+                    />
+                    <h5 className="header-h5 text-2xl"> First Last</h5>
+                  </div>
+                  <Link
+                    to="/"
+                    className="header-h5 text-2xl flex justify-between items-center mb-6"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Home
+                    <img
+                      src={arrowRight}
+                      alt="Arrow to right"
+                      className="mr-4"
+                    />
+                  </Link>
+                  <Link
+                    to="/"
+                    className="header-h5 text-2xl flex  justify-between items-center"
+                    onClick={() => setIsOpen(false)}
+                    onClick={handleSignOut}
+                  >
+                    <p className="text-primary">Logout</p>
+                    <img
+                      src={arrowRightGreen}
+                      alt="Arrow to right"
+                      className="mr-4"
+                    />
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/"
+                    className="header-h5 mt-6.25 mb-10.75 flex  justify-between items-center "
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Home
+                    <img
+                      src={arrowRight}
+                      alt="Arrow to right"
+                      className="mr-4"
+                    />
+                  </Link>
+                  <Link
+                    to="/auth/signUp"
+                    onClick={() => setIsOpen(false)}
+                    className="sign-up-primary mb-6"
+                  >
+                    Sign up
+                  </Link>
+                  <Link
+                    to="/auth/signIn"
+                    onClick={() => setIsOpen(false)}
+                    className="sign-in-primary"
+                  >
+                    Sign in
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </div>
