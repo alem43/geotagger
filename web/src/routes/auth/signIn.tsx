@@ -54,7 +54,7 @@ function RouteComponent() {
         style={{ backgroundImage: `url(${backgroundImage})` }}
         className="bg-cover bg-center xl:p-0 px-8.75  max-w-360 mx-auto flex justify-center h-screen"
       >
-        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow max-h-max xl:max-h-screen mt-44.75">
+        <div className="flex w-full bg-white max-w-86 sm:max-w-118.75 md:max-w-137.5 lg:max-w-156.25 xl:max-w-155 xl:h-screen xl:rounded-none xl:mx-0 rounded-4xl xl:pt-11.5 xl:pl-17.5 gap-28 flex-col box-shadow max-h-max xl:max-h-screen mt-44.75 xl:mt-0">
           <Link to="/" className="hidden xl:block">
             <img
               src={geotaggerLogo}

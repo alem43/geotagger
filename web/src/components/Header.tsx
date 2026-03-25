@@ -11,73 +11,70 @@ export default function Header() {
 
   return (
     <>
-      <header
-        className="w-full max-h-24 py-7.5 px-8.75 xl:px-17.5 flex justify-between items-center bg-white z-10 xl:shadow-none "
-        style={{
-          boxShadow: `0px 0px 8px 0px #00000026`,
-        }}
-      >
-        <Link to="/">
-          <img src={geotaggerLogo} alt="Geotagger Logo" />
-        </Link>
-        <button className="cursor-pointer md:hidden">
-          <img
-            onClick={() => setIsOpen(true)}
-            src={hamburgerMenuIcon}
-            alt="Hamburger menu icon"
-          />
-        </button>
-        <div className="hidden gap-4 items-center-safe w-full max-w-60 md:flex">
-          <Link to="/auth/signIn" className="body-p-bold text-dark">
-            Sign in
+      <header className="w-full max-h-24 py-7.5 px-8.75 xl:px-17.5 bg-white z-10 box-shadow">
+        <div className="flex justify-between items-center max-w-360 mx-auto">
+          <Link to="/">
+            <img src={geotaggerLogo} alt="Geotagger Logo" />
           </Link>
-          <p className="body-p text-dark">or</p>
-          <Link
-            to="/auth/signUp"
-            className="sign-up-primary w-full max-w-34.25"
-          >
-            Sign up
-          </Link>
-        </div>
-        <nav
-          className={`w-full py-7 px-8.75 fixed top-0 left-0 bg-white z-20 transform transition-transform duration-300 ease-in-out ${
-            isOpen ? 'translate-y-0' : '-translate-y-full'
-          }`}
-        >
-          <div className="flex flex-col w-full md:hidden">
-            <button className=" max-h-10 flex justify-end-safe">
-              <img
-                src={xIcon}
-                alt="eXit icon"
-                onClick={() => setIsOpen(false)}
-                className="cursor-pointer -mr-2"
-              />
-            </button>
-            <Link
-              to="/"
-              className="header-h5 mt-6.25 mb-10.75 flex  justify-between items-center "
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-              <img src={arrowRight} alt="Arrow to right" className="mr-4" />
+          <button className="cursor-pointer md:hidden">
+            <img
+              onClick={() => setIsOpen(true)}
+              src={hamburgerMenuIcon}
+              alt="Hamburger menu icon"
+            />
+          </button>
+          <div className="hidden gap-4 items-center-safe w-full max-w-60 md:flex">
+            <Link to="/auth/signIn" className="body-p-bold text-dark">
+              Sign in
             </Link>
-
+            <p className="body-p text-dark">or</p>
             <Link
               to="/auth/signUp"
-              onClick={() => setIsOpen(false)}
-              className="sign-up-primary mb-6"
+              className="sign-up-primary w-full max-w-34.25"
             >
               Sign up
             </Link>
-            <Link
-              to="/auth/signIn"
-              onClick={() => setIsOpen(false)}
-              className="sign-in-primary"
-            >
-              Sign in
-            </Link>
           </div>
-        </nav>
+          <nav
+            className={`w-full py-7 px-8.75 fixed top-0 left-0 bg-white z-20 transform transition-transform duration-300 ease-in-out ${
+              isOpen ? 'translate-y-0' : '-translate-y-full'
+            }`}
+          >
+            <div className="flex flex-col w-full md:hidden">
+              <button className=" max-h-10 flex justify-end-safe">
+                <img
+                  src={xIcon}
+                  alt="eXit icon"
+                  onClick={() => setIsOpen(false)}
+                  className="cursor-pointer -mr-2"
+                />
+              </button>
+              <Link
+                to="/"
+                className="header-h5 mt-6.25 mb-10.75 flex  justify-between items-center "
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+                <img src={arrowRight} alt="Arrow to right" className="mr-4" />
+              </Link>
+
+              <Link
+                to="/auth/signUp"
+                onClick={() => setIsOpen(false)}
+                className="sign-up-primary mb-6"
+              >
+                Sign up
+              </Link>
+              <Link
+                to="/auth/signIn"
+                onClick={() => setIsOpen(false)}
+                className="sign-in-primary"
+              >
+                Sign in
+              </Link>
+            </div>
+          </nav>
+        </div>
       </header>
     </>
   )

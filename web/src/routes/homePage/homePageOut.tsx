@@ -47,15 +47,15 @@ function RouteComponent() {
             <img
               src={worldImage1}
               alt="world image"
-              className="absolute top-0 left-[5%] lg:left-[15%] xl:left-0 xl:top-[9%] sm:scale-125 md:scale-150 lg:scale-[175%]"
+              className="absolute top-0 left-[5%] lg:left-[15%] xl:left-0 xl:top-[9%] sm:scale-125 md:scale-150 lg:scale-[175%] xl:scale-100"
             />
           </picture>
           <picture>
-            <source media="(min-width: 1280px)" srcSet={worldImage2Desktop} />
+            <source media="(min-width: 1280px)" srcSet={worldImage2} />
             <img
               src={worldImage2}
               alt="world image"
-              className="absolute top-[25%] right-0 xl:top-[35%] sm:scale-125 md:scale-150 lg:scale-[175%] sm:right-[3%] md:right-[7%] lg:right-[17.5%]"
+              className="absolute top-[25%] right-0 xl:top-[35%] sm:scale-125 md:scale-150 lg:scale-[175%] xl:scale-100 sm:right-[3%] md:right-[7%] lg:right-[17.5%]"
             />
           </picture>
           <picture>
@@ -63,7 +63,7 @@ function RouteComponent() {
             <img
               src={worldImage3}
               alt="world image"
-              className="absolute bottom-[5%] left-[10%] lg:left-[20%] xl:left-[20%] xl:bottom-0 sm:scale-125 md:scale-150 lg:scale-[175%]"
+              className="absolute bottom-[5%] left-[10%] lg:left-[20%] xl:left-[20%] xl:bottom-0 sm:scale-125 md:scale-150 lg:scale-[175%] xl:scale-100"
             />
           </picture>
         </div>
