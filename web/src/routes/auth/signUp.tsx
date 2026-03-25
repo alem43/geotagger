@@ -116,7 +116,7 @@ function RouteComponent() {
                       isSignedIn: true,
                     })
                     setIsSignedIn(true)
-                    navigate({ to: '/homePage/homePageIn' })
+                    navigate({ to: '/' })
                   } else {
                     console.error('Not registered')
                   }

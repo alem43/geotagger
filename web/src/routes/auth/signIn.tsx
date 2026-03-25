@@ -93,7 +93,7 @@ function RouteComponent() {
                     const message = await response.text()
                     console.log('Success:', message)
                     setIsSignedIn(true)
-                    navigate({ to: '/homePage/homePageIn' })
+                    navigate({ to: '/' })
                   } else {
                     setServerError('Invalid email or password')
                   }
