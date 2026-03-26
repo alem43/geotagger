@@ -14,9 +14,18 @@ export default function Header() {
   const { isSignedIn, setIsSignedIn } = useAuth()
   const navigate = useNavigate()
 
-  const handleSignOut = () => {
-    setIsSignedIn(false)
-    navigate({ to: '/' })
+  const handleSignOut = async () => {
+    try {
+      await fetch('http://localhost:8787/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      })
+    } catch (error) {
+      console.error('Logout failed:', error)
+    } finally {
+      setIsSignedIn(false)
+      navigate({ to: '/' })
+    }
   }
 
   return (
@@ -37,8 +46,11 @@ export default function Header() {
           <div className="hidden gap-4 items-center-safe w-full max-w-60 md:flex">
             {isSignedIn ? (
               <div className="flex w-full justify-between items-center-safe max-w-59.75">
-                <p className="body-p text-dark">Home</p>
-                <p className="body-p text-dark" onClick={handleSignOut}>
+                <p className="body-p text-dark cursor-pointer">Home</p>
+                <p
+                  className="body-p text-dark cursor-pointer"
+                  onClick={handleSignOut}
+                >
                   Logout
                 </p>
                 <img
@@ -85,11 +97,11 @@ export default function Header() {
                       alt="profile picture"
                       className="w-full h-full max-w-12 max-h-12 mr-7.5"
                     />
-                    <h5 className="header-h5 text-2xl"> First Last</h5>
+                    <h5 className="header-h5 text-2xl">First Last</h5>
                   </div>
                   <Link
                     to="/"
-                    className="header-h5 text-2xl flex justify-between items-center mb-6"
+                    className="header-h5 text-2xl flex justify-between items-center mb-6 cursor-pointer"
                     onClick={() => setIsOpen(false)}
                   >
                     Home
@@ -101,11 +113,11 @@ export default function Header() {
                   </Link>
                   <Link
                     to="/"
-                    className="header-h5 text-2xl flex  justify-between items-center"
+                    className="header-h5 text-2xl flex justify-between items-center text-primary cursor-pointer"
                     onClick={() => setIsOpen(false)}
                     onClick={handleSignOut}
                   >
-                    <p className="text-primary">Logout</p>
+                    Logout
                     <img
                       src={arrowRightGreen}
                       alt="Arrow to right"
