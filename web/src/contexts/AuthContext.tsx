@@ -1,15 +1,26 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 
+interface User {
+  id: number
+  email: string
+  firstName: string
+  lastName: string
+}
+
 interface AuthContextType {
   isSignedIn: boolean
   setIsSignedIn: (value: boolean) => void
+  user: User | null
+  setUser: (user: User | null) => void
+  isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isSignedIn, setIsSignedIn] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -20,12 +31,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         })
 
         if (response.ok) {
+          const userData = await response.json()
+          setUser(userData)
           setIsSignedIn(true)
         } else {
+          setUser(null)
           setIsSignedIn(false)
         }
       } catch (error) {
         console.error('Session check failed:', error)
+        setUser(null)
         setIsSignedIn(false)
       } finally {
         setIsLoading(false)
@@ -36,7 +51,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, setIsSignedIn }}>
+    <AuthContext.Provider
+      value={{ isSignedIn, setIsSignedIn, user, setUser, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   )

@@ -32,7 +32,12 @@ meRoute.get("/", async (c) => {
 
   const user = userRows[0];
 
-  return c.text(user.email);
+  return c.json({
+    id: user.id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  });
 });
 
 export default meRoute;

@@ -45,7 +45,7 @@ function RouteComponent() {
   const [serverError, setServerError] = useState('')
   const navigate = useNavigate()
 
-  const { setIsSignedIn } = useAuth()
+  const { setIsSignedIn, setUser } = useAuth()
 
   return (
     <>
@@ -90,10 +90,19 @@ function RouteComponent() {
                     },
                   )
                   if (response.ok) {
-                    const message = await response.text()
-                    console.log('Success:', message)
-                    setIsSignedIn(true)
-                    navigate({ to: '/' })
+                    const userResponse = await fetch(
+                      'http://localhost:8787/me',
+                      {
+                        credentials: 'include',
+                      },
+                    )
+
+                    if (userResponse.ok) {
+                      const userData = await userResponse.json()
+                      setUser(userData)
+                      setIsSignedIn(true)
+                      navigate({ to: '/' })
+                    }
                   } else {
                     setServerError('Invalid email or password')
                   }

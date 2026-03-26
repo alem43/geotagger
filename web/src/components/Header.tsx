@@ -11,7 +11,7 @@ import mobileProfilePictureDefault from '../images/mobile-profile-picture-defaul
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const { isSignedIn, setIsSignedIn } = useAuth()
+  const { isSignedIn, setIsSignedIn, user, setUser } = useAuth()
   const navigate = useNavigate()
 
   const handleSignOut = async () => {
@@ -24,6 +24,7 @@ export default function Header() {
       console.error('Logout failed:', error)
     } finally {
       setIsSignedIn(false)
+      setUser(null)
       navigate({ to: '/' })
     }
   }
@@ -97,7 +98,11 @@ export default function Header() {
                       alt="profile picture"
                       className="w-full h-full max-w-12 max-h-12 mr-7.5"
                     />
-                    <h5 className="header-h5 text-2xl">First Last</h5>
+                    <h5 className="header-h5 text-2xl">
+                      {user
+                        ? `${user.firstName} ${user.lastName}`
+                        : 'Loading...'}
+                    </h5>
                   </div>
                   <Link
                     to="/"

@@ -54,7 +54,7 @@ function RouteComponent() {
     resolver: zodResolver(signUpValuesSchema),
   })
 
-  const { setIsSignedIn } = useAuth()
+  const { setIsSignedIn, setUser } = useAuth()
 
   return (
     <>
@@ -110,13 +110,19 @@ function RouteComponent() {
                   )
 
                   if (response.ok) {
-                    const message = await response.text()
-                    console.log('Success:', message)
-                    const [user] = useState<User>({
-                      isSignedIn: true,
-                    })
-                    setIsSignedIn(true)
-                    navigate({ to: '/' })
+                    const userResponse = await fetch(
+                      'http://localhost:8787/me',
+                      {
+                        credentials: 'include',
+                      },
+                    )
+
+                    if (userResponse.ok) {
+                      const userData = await userResponse.json()
+                      setUser(userData)
+                      setIsSignedIn(true)
+                      navigate({ to: '/' })
+                    }
                   } else {
                     console.error('Not registered')
                   }
