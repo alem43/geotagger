@@ -29,6 +29,14 @@ export default function Header() {
     }
   }
 
+  const handleHome = () => {
+    navigate({ to: '/' })
+  }
+
+  const handleProfile = () => {
+    navigate({ to: '/profile/profile' })
+  }
+
   return (
     <>
       <header className="w-full max-h-24 py-7.5 px-8.75 xl:px-17.5 bg-white z-10 box-shadow">
@@ -47,7 +55,12 @@ export default function Header() {
           <div className="hidden gap-4 items-center-safe w-full max-w-60 md:flex">
             {isSignedIn ? (
               <div className="flex w-full justify-between items-center-safe max-w-59.75">
-                <p className="body-p text-dark cursor-pointer">Home</p>
+                <p
+                  className="body-p text-dark cursor-pointer"
+                  onClick={handleHome}
+                >
+                  Home
+                </p>
                 <p
                   className="body-p text-dark cursor-pointer"
                   onClick={handleSignOut}
@@ -58,6 +71,7 @@ export default function Header() {
                   src={mobileProfilePictureDefault}
                   alt="hero"
                   className="w-full h-full max-w-10 max-h-10 object-cover cursor-pointer"
+                  onClick={handleProfile}
                 />
               </div>
             ) : (
@@ -92,7 +106,10 @@ export default function Header() {
 
               {isSignedIn ? (
                 <>
-                  <div className="flex items-center-safe mb-12.5">
+                  <div
+                    className="flex items-center-safe mb-12.5"
+                    onClick={handleProfile}
+                  >
                     <img
                       src={mobileProfilePictureDefault}
                       alt="profile picture"
@@ -108,6 +125,7 @@ export default function Header() {
                     to="/"
                     className="header-h5 text-2xl flex justify-between items-center mb-6 cursor-pointer"
                     onClick={() => setIsOpen(false)}
+                    onClick={handleHome}
                   >
                     Home
                     <img

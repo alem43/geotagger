@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfileProfileRouteImport } from './routes/profile/profile'
 import { Route as HomePageHomePageOutRouteImport } from './routes/homePage/homePageOut'
 import { Route as HomePageHomePageInRouteImport } from './routes/homePage/homePageIn'
 import { Route as AuthSignUpRouteImport } from './routes/auth/signUp'
@@ -18,6 +19,11 @@ import { Route as AuthSignInRouteImport } from './routes/auth/signIn'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileProfileRoute = ProfileProfileRouteImport.update({
+  id: '/profile/profile',
+  path: '/profile/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomePageHomePageOutRoute = HomePageHomePageOutRouteImport.update({
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/auth/signUp': typeof AuthSignUpRoute
   '/homePage/homePageIn': typeof HomePageHomePageInRoute
   '/homePage/homePageOut': typeof HomePageHomePageOutRoute
+  '/profile/profile': typeof ProfileProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/auth/signUp': typeof AuthSignUpRoute
   '/homePage/homePageIn': typeof HomePageHomePageInRoute
   '/homePage/homePageOut': typeof HomePageHomePageOutRoute
+  '/profile/profile': typeof ProfileProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/auth/signUp': typeof AuthSignUpRoute
   '/homePage/homePageIn': typeof HomePageHomePageInRoute
   '/homePage/homePageOut': typeof HomePageHomePageOutRoute
+  '/profile/profile': typeof ProfileProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,6 +80,7 @@ export interface FileRouteTypes {
     | '/auth/signUp'
     | '/homePage/homePageIn'
     | '/homePage/homePageOut'
+    | '/profile/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -78,6 +88,7 @@ export interface FileRouteTypes {
     | '/auth/signUp'
     | '/homePage/homePageIn'
     | '/homePage/homePageOut'
+    | '/profile/profile'
   id:
     | '__root__'
     | '/'
@@ -85,6 +96,7 @@ export interface FileRouteTypes {
     | '/auth/signUp'
     | '/homePage/homePageIn'
     | '/homePage/homePageOut'
+    | '/profile/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,6 +105,7 @@ export interface RootRouteChildren {
   AuthSignUpRoute: typeof AuthSignUpRoute
   HomePageHomePageInRoute: typeof HomePageHomePageInRoute
   HomePageHomePageOutRoute: typeof HomePageHomePageOutRoute
+  ProfileProfileRoute: typeof ProfileProfileRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile/profile': {
+      id: '/profile/profile'
+      path: '/profile/profile'
+      fullPath: '/profile/profile'
+      preLoaderRoute: typeof ProfileProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/homePage/homePageOut': {
@@ -141,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthSignUpRoute: AuthSignUpRoute,
   HomePageHomePageInRoute: HomePageHomePageInRoute,
   HomePageHomePageOutRoute: HomePageHomePageOutRoute,
+  ProfileProfileRoute: ProfileProfileRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
