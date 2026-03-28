@@ -1,8 +1,10 @@
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import Map from '@/components/Map'
 import { useAuth } from '@/contexts/AuthContext'
 import { createFileRoute } from '@tanstack/react-router'
 import mobileProfilePictureDefault from '../../images/mobile-profile-picture-default.svg'
+import placeholderImage from '../../images/placeholder-image.png'
 
 export const Route = createFileRoute('/profile/profile')({
   component: RouteComponent,
@@ -65,6 +67,8 @@ function RouteComponent() {
         </div>
         <div className="flex flex-col w-full h-full max-h-174 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
           <p className="body-p text-dark">Upload image:</p>
+          <img src={placeholderImage} alt="placeholder image" />
+          <Map />
         </div>
       </div>
       <Footer />
