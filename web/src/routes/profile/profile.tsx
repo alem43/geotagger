@@ -16,9 +16,9 @@ function RouteComponent() {
   return (
     <>
       <Header />
-      <div className="flex flex-col gap-10.5 mx-auto w-full max-w-85.5 mt-8">
-        <div className="flex flex-col w-full h-full max-h-174 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
-          <div className="flex flex-col pt-20 gap-6">
+      <div className="flex flex-col xl:flex-row gap-10.5 mx-auto w-full max-w-85.5 xl:max-w-325 mt-8 xl:mt-10">
+        <div className="flex flex-col w-full h-full max-h-174 xl:max-h-189.75 xl:max-w-105 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
+          <div className="flex flex-col pt-20 pb-16.25 gap-6">
             <div className="flex flex-col items-center-safe">
               <img
                 src={mobileProfilePictureDefault}
@@ -65,14 +65,18 @@ function RouteComponent() {
           </div>
           <button className="sign-up-primary">Save profile</button>
         </div>
-        <div className="flex flex-col w-full h-full min-h-174 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
+        <div className="flex flex-col w-full h-full min-h-174 xl:max-h-189.75 xl:max-w-105 p-6 pt-4 box-shadow rounded-2xl gap-3.25">
           <p className="body-p text-dark">Upload image:</p>
-          <img src={placeholderImage} alt="placeholder image" />
+          <img
+            src={placeholderImage}
+            alt="placeholder image"
+            className="xl:max-h-[215.5px]"
+          />
           <Map />
           <div className="flex flex-col gap-4">
             <p className="body-p text-dark text-[1rem]">Location</p>
             <div className="px-4 py-2">
-              <p className="body-p text-dark text-[1rem]">
+              <p className="body-p text-dark text-[1rem] xl:overflow-hidden">
                 2118 Thornridge Cir. Syracuse, Connecticut 35624
               </p>
             </div>

@@ -39,10 +39,14 @@ export default function Header() {
 
   return (
     <>
-      <header className="w-full max-h-24 py-7.5 px-8.75 xl:px-17.5 bg-white z-10 box-shadow">
+      <header className="w-full max-h-24 py-7.5 px-8.75 xl:px-17.5 bg-white z-10 box-shadow max-w-360 mx-auto">
         <div className="flex justify-between items-center max-w-360 mx-auto">
           <Link to="/">
-            <img src={geotaggerLogo} alt="Geotagger Logo" />
+            <img
+              src={geotaggerLogo}
+              alt="Geotagger Logo"
+              className="h-10 w-42.75"
+            />
           </Link>
           <button className="cursor-pointer md:hidden">
             <img
