@@ -65,10 +65,19 @@ function RouteComponent() {
           </div>
           <button className="sign-up-primary">Save profile</button>
         </div>
-        <div className="flex flex-col w-full h-full max-h-174 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
+        <div className="flex flex-col w-full h-full min-h-174 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
           <p className="body-p text-dark">Upload image:</p>
           <img src={placeholderImage} alt="placeholder image" />
           <Map />
+          <div className="flex flex-col gap-4">
+            <p className="body-p text-dark text-[1rem]">Location</p>
+            <div className="px-4 py-2">
+              <p className="body-p text-dark text-[1rem]">
+                2118 Thornridge Cir. Syracuse, Connecticut 35624
+              </p>
+            </div>
+          </div>
+          <button className="sign-up-primary">Add place</button>
         </div>
       </div>
       <Footer />
