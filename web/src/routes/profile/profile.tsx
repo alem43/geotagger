@@ -1,8 +1,12 @@
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Map from '@/components/Map'
+import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { createFileRoute } from '@tanstack/react-router'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import mobileProfilePictureDefault from '../../images/mobile-profile-picture-default.svg'
 import placeholderImage from '../../images/placeholder-image.png'
 
@@ -11,6 +15,65 @@ export const Route = createFileRoute('/profile/profile')({
 })
 
 function RouteComponent() {
+  const geotagValuesSchema = z.object({
+    imageUrl: z
+      .string()
+      .url('Must be a valid URL')
+      .min(1, 'Image URL is required'),
+    lat: z.number().min(-90).max(90),
+    lng: z.number().min(-180).max(180),
+  })
+
+  type GeotagValues = z.infer<typeof geotagValuesSchema>
+
+  const [markerPosition, setMarkerPosition] = useState<[number, number]>([
+    48.864716, 2.349014,
+  ])
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<GeotagValues>({
+    resolver: zodResolver(geotagValuesSchema),
+    defaultValues: {
+      imageUrl: '',
+      lat: markerPosition[0],
+      lng: markerPosition[1],
+    },
+  })
+
+  const handleMarkerDragEnd = (newLat: number, newLng: number) => {
+    setMarkerPosition([newLat, newLng])
+    setValue('lat', newLat)
+    setValue('lng', newLng)
+  }
+
+  const onSubmit = async (data: CreateGeotagValues) => {
+    try {
+      const response = await fetch('http://localhost:8787/geotags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        const geotag = await response.json()
+        console.log('Geotag created:', geotag)
+        alert('Geotag created successfully!')
+      } else {
+        console.error('Failed to create geotag')
+        alert('Failed to create geotag')
+      }
+    } catch (error) {
+      console.error('Network error:', error)
+      alert('Network error')
+    }
+  }
+
   const { isSignedIn, setIsSignedIn, user, setUser } = useAuth()
 
   return (
@@ -65,24 +128,44 @@ function RouteComponent() {
           </div>
           <button className="sign-up-primary">Save profile</button>
         </div>
-        <div className="flex flex-col w-full h-full min-h-174 xl:max-h-189.75 xl:max-w-105 p-6 pt-4 box-shadow rounded-2xl gap-3.25">
-          <p className="body-p text-dark">Upload image:</p>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col w-full h-full min-h-174 xl:max-h-189.75 xl:max-w-105 p-6 pt-4 box-shadow rounded-2xl gap-3.25"
+        >
+          <div className="flex flex-col gap-2">
+            <p className="body-p text-dark">Upload image:</p>
+          </div>
           <img
-            src={placeholderImage}
+            src={watch('imageUrl') || placeholderImage}
             alt="placeholder image"
-            className="xl:max-h-[215.5px]"
+            className="xl:max-h-[215.5px] object-cover"
+            onError={(e) => {
+              e.currentTarget.src = placeholderImage
+            }}
           />
-          <Map />
+          <input type="hidden" {...register('lat', { valueAsNumber: true })} />
+          <input type="hidden" {...register('lng', { valueAsNumber: true })} />
+          <Map
+            position={markerPosition}
+            onMarkerDragEnd={handleMarkerDragEnd}
+          />
           <div className="flex flex-col gap-4">
             <p className="body-p text-dark text-[1rem]">Location</p>
             <div className="px-4 py-2">
               <p className="body-p text-dark text-[1rem] xl:overflow-hidden">
-                2118 Thornridge Cir. Syracuse, Connecticut 35624
+                Lat: {markerPosition[0].toFixed(6)},
+                {markerPosition[1].toFixed(6)}
               </p>
             </div>
           </div>
-          <button className="sign-up-primary">Add place</button>
-        </div>
+          <button
+            type="submit"
+            className="sign-up-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Adding...' : 'Add place'}
+          </button>
+        </form>
       </div>
       <Footer />
     </>
