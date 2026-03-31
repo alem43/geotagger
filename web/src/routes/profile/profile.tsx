@@ -16,7 +16,7 @@ function RouteComponent() {
   return (
     <>
       <Header />
-      <div className="flex flex-col xl:flex-row gap-10.5 mx-auto w-full max-w-85.5 xl:max-w-325 mt-8 xl:mt-10">
+      <div className="flex flex-col xl:flex-row gap-10.5 mx-auto mb-17.25 w-full max-w-85.5 xl:max-w-325 mt-8 xl:mt-10">
         <div className="flex flex-col w-full h-full max-h-174 xl:max-h-189.75 xl:max-w-105 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
           <div className="flex flex-col pt-20 pb-16.25 gap-6">
             <div className="flex flex-col items-center-safe">
