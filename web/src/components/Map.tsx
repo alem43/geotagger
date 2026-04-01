@@ -13,10 +13,14 @@ L.Icon.Default.mergeOptions({
     'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 })
 
-const Map = () => {
+type MapProps = {
+  position: [number, number]
+  onMarkerDragEnd: (lat: number, lng: number) => void
+}
+
+const Map = ({ position, onMarkerDragEnd }: MapProps) => {
   const [isClient, setIsClient] = useState(false)
-  const [position, setPosition] = useState([48.864716, 2.349014])
-  const markerRef = useRef(null)
+  const markerRef = useRef<any>(null)
 
   useEffect(() => {
     setIsClient(true)
@@ -24,10 +28,9 @@ const Map = () => {
 
   const handleDragEnd = () => {
     const marker = markerRef.current
-    if (marker != null) {
-      const newPos = marker.getLatLng()
-      setPosition([newPos.lat, newPos.lng])
-      console.log('New position:', newPos)
+    if (marker) {
+      const { lat, lng } = marker.getLatLng()
+      onMarkerDragEnd(lat, lng) // 🔥 THIS was missing
     }
   }
 
@@ -35,18 +38,14 @@ const Map = () => {
 
   return (
     <MapContainer
-      center={[48.864716, 2.349014]}
-      zoom={1}
+      center={position}
+      zoom={5}
       className="w-full h-[15.9688rem] rounded-[19px]"
     >
-      <TileLayer
-        url="https://tile.openstreetmap.de/{z}/{x}/{y}.png"
-        maxZoom={18}
-        attribution="&copy; <a href='https://www.openstreetmap.org/copyright'> OpenStreetMap </a> contributors"
-      />
+      <TileLayer url="https://tile.openstreetmap.de/{z}/{x}/{y}.png" />
       <Marker
         position={position}
-        draggable={true}
+        draggable
         ref={markerRef}
         eventHandlers={{
           dragend: handleDragEnd,

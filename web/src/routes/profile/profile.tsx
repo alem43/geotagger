@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Map from '@/components/Map'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { createFileRoute } from '@tanstack/react-router'
 import * as z from 'zod'
@@ -30,6 +30,10 @@ function RouteComponent() {
     48.864716, 2.349014,
   ])
 
+  // Add state for address
+  const [address, setAddress] = useState<string>('Loading address...')
+  const [isLoadingAddress, setIsLoadingAddress] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -45,13 +49,47 @@ function RouteComponent() {
     },
   })
 
+  const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY
+
+  const fetchAddress = async (lat: number, lng: number) => {
+    setIsLoadingAddress(true)
+    try {
+      const response = await fetch(
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${GEOAPIFY_KEY}
+`,
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch address')
+      }
+
+      const result = await response.json()
+
+      if (result.features && result.features.length > 0) {
+        setAddress(result.features[0].properties.formatted)
+      } else {
+        setAddress('No address found')
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error)
+      setAddress('Error fetching address')
+    } finally {
+      setIsLoadingAddress(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchAddress(markerPosition[0], markerPosition[1])
+  }, [markerPosition])
+
   const handleMarkerDragEnd = (newLat: number, newLng: number) => {
     setMarkerPosition([newLat, newLng])
     setValue('lat', newLat)
     setValue('lng', newLng)
+    fetchAddress(newLat, newLng)
   }
 
-  const onSubmit = async (data: CreateGeotagValues) => {
+  const onSubmit = async (data: GeotagValues) => {
     try {
       const response = await fetch('http://localhost:8787/geotags', {
         method: 'POST',
@@ -138,7 +176,7 @@ function RouteComponent() {
           <img
             src={watch('imageUrl') || placeholderImage}
             alt="placeholder image"
-            className="xl:max-h-[215.5px] object-cover"
+            className="xl:max-h-[215.5px] object-cover rounded-2xl"
             onError={(e) => {
               e.currentTarget.src = placeholderImage
             }}
@@ -152,9 +190,8 @@ function RouteComponent() {
           <div className="flex flex-col gap-4">
             <p className="body-p text-dark text-[1rem]">Location</p>
             <div className="px-4 py-2">
-              <p className="body-p text-dark text-[1rem] xl:overflow-hidden">
-                Lat: {markerPosition[0].toFixed(6)},
-                {markerPosition[1].toFixed(6)}
+              <p className="body-p text-dark text-[1rem]">
+                {isLoadingAddress ? 'Loading address...' : address}
               </p>
             </div>
           </div>
