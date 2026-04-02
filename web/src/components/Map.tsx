@@ -30,7 +30,7 @@ const Map = ({ position, onMarkerDragEnd }: MapProps) => {
     const marker = markerRef.current
     if (marker) {
       const { lat, lng } = marker.getLatLng()
-      onMarkerDragEnd(lat, lng) // 🔥 THIS was missing
+      onMarkerDragEnd(lat, lng)
     }
   }
 
@@ -39,10 +39,13 @@ const Map = ({ position, onMarkerDragEnd }: MapProps) => {
   return (
     <MapContainer
       center={position}
-      zoom={5}
+      zoom={1}
       className="w-full h-[15.9688rem] rounded-[19px]"
     >
-      <TileLayer url="https://tile.openstreetmap.de/{z}/{x}/{y}.png" />
+      <TileLayer
+        url="https://tile.openstreetmap.de/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
       <Marker
         position={position}
         draggable

@@ -190,7 +190,7 @@ function RouteComponent() {
           <div className="flex flex-col gap-4">
             <p className="body-p text-dark text-[1rem]">Location</p>
             <div className="px-4 py-2">
-              <p className="body-p text-dark text-[1rem]">
+              <p className="body-p text-dark text-[1rem] min-h-12">
                 {isLoadingAddress ? 'Loading address...' : address}
               </p>
             </div>
