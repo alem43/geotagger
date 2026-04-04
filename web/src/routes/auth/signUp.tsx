@@ -1,4 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -55,6 +56,9 @@ function RouteComponent() {
   })
 
   const { setIsSignedIn, setUser } = useAuth()
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   return (
     <>
@@ -86,17 +90,42 @@ function RouteComponent() {
                 Your name will appear on posts and your public profle.
               </p>
             </div>
-            <picture>
-              <source
-                media="(min-width: 1280px)"
-                srcSet={mobileProfilePictureDefault}
+            <div className="relative">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                id="profile-upload"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (!file) return
+
+                  setImageFile(file)
+                  setPreview(URL.createObjectURL(file))
+                }}
               />
-              <img
-                src={profilePictureDefault}
-                alt="hero"
-                className="w-full h-full object-cover cursor-pointer"
-              />
-            </picture>
+              <label htmlFor="profile-upload" className="cursor-pointer">
+                {preview ? (
+                  <img
+                    src={preview}
+                    alt="profile"
+                    className="w-32 h-32 object-cover rounded-full"
+                  />
+                ) : (
+                  <picture>
+                    <source
+                      media="(min-width: 1280px)"
+                      srcSet={mobileProfilePictureDefault}
+                    />
+                    <img
+                      src={profilePictureDefault}
+                      alt="hero"
+                      className="w-full h-full object-cover cursor-pointer"
+                    />
+                  </picture>
+                )}
+              </label>
+            </div>
             <form
               onSubmit={handleSubmit(async (data) => {
                 try {
@@ -105,29 +134,29 @@ function RouteComponent() {
                     {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify(data),
+                      credentials: 'include',
+                      body: JSON.stringify({
+                        email: data.email,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        password: data.password,
+                      }),
                     },
                   )
 
                   if (response.ok) {
-                    const userResponse = await fetch(
-                      'http://localhost:8787/me',
-                      {
-                        credentials: 'include',
-                      },
-                    )
-
-                    if (userResponse.ok) {
-                      const userData = await userResponse.json()
-                      setUser(userData)
-                      setIsSignedIn(true)
-                      navigate({ to: '/' })
-                    }
+                    const userData = await response.json()
+                    setUser(userData)
+                    setIsSignedIn(true)
+                    navigate({ to: '/' })
                   } else {
-                    console.error('Not registered')
+                    const errorText = await response.text()
+                    console.error('Registration failed:', errorText)
+                    alert(`Registration failed: ${errorText}`)
                   }
                 } catch (error) {
                   console.error('Network error:', error)
+                  alert('Network error - is your backend running?')
                 }
               })}
               className="flex flex-col gap-4 max-w-105"

@@ -18,8 +18,10 @@ authRoute.post("/register", async (c) => {
 
   const passwordHash = await bcrypt.hash(password, 10);
 
+  const userId = crypto.randomUUID();
+
   await db.insert(users).values({
-    id: crypto.randomUUID(),
+    id: userId,
     email: email,
     firstName,
     lastName,
@@ -27,7 +29,24 @@ authRoute.post("/register", async (c) => {
     createdAt: Date.now(),
   });
 
-  return c.text("User registered");
+  const sessionToken = crypto.randomUUID();
+  await db.insert(sessions).values({
+    token: sessionToken,
+    userId: userId,
+    createdAt: Date.now(),
+  });
+
+  c.header(
+    "Set-Cookie",
+    `session=${sessionToken}; Path=/; HttpOnly; SameSite=Lax`,
+  );
+
+  return c.json({
+    id: userId,
+    email: email,
+    firstName,
+    lastName,
+  });
 });
 
 authRoute.post("/login", async (c) => {
