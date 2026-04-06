@@ -11,6 +11,8 @@ import authRoute from "./routes/auth-route.js";
 import meRoute from "./routes/me-route.js";
 import geotagsRoute from "./routes/geotags-route.js";
 import {logger} from "hono/logger";
+import fs from "fs";
+import path from "path";
 
 const app = new Hono();
 
@@ -37,6 +39,33 @@ app.route("/me", meRoute);
 app.get("/protected", requireAuth, (c) => {
   const user = c.get("user");
   return c.text(`ok protected: ${user.email}`);
+});
+
+app.get("/uploads/profiles/:filename", async (c) => {
+  const filename = c.req.param("filename");
+
+  const filePath = path.join(process.cwd(), "uploads", "profiles", filename);
+
+  if (!fs.existsSync(filePath)) {
+    return c.text("File not found", 404);
+  }
+
+  const file = fs.readFileSync(filePath);
+
+  const ext = filename.split(".").pop();
+
+  const mimeTypes: Record<string, string> = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+  };
+
+  const contentType = mimeTypes[ext || ""] || "application/octet-stream";
+
+  return c.body(file, 200, {
+    "Content-Type": contentType,
+  });
 });
 
 app.route("/geotags", geotagsRoute);

@@ -129,18 +129,23 @@ function RouteComponent() {
             <form
               onSubmit={handleSubmit(async (data) => {
                 try {
+                  const formData = new FormData()
+
+                  formData.append('email', data.email)
+                  formData.append('firstName', data.firstName)
+                  formData.append('lastName', data.lastName)
+                  formData.append('password', data.password)
+
+                  if (imageFile) {
+                    formData.append('profilePicture', imageFile)
+                  }
+
                   const response = await fetch(
                     'http://localhost:8787/auth/register',
                     {
                       method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
                       credentials: 'include',
-                      body: JSON.stringify({
-                        email: data.email,
-                        firstName: data.firstName,
-                        lastName: data.lastName,
-                        password: data.password,
-                      }),
+                      body: formData,
                     },
                   )
 

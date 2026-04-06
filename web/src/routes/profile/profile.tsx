@@ -30,7 +30,6 @@ function RouteComponent() {
     48.864716, 2.349014,
   ])
 
-  // Add state for address
   const [address, setAddress] = useState<string>('Loading address...')
   const [isLoadingAddress, setIsLoadingAddress] = useState(false)
 
@@ -122,7 +121,11 @@ function RouteComponent() {
           <div className="flex flex-col pt-20 pb-16.25 gap-6">
             <div className="flex flex-col items-center-safe">
               <img
-                src={mobileProfilePictureDefault}
+                src={
+                  user?.profilePictureUrl
+                    ? `http://localhost:8787/uploads/profiles/${user.profilePictureUrl}`
+                    : mobileProfilePictureDefault
+                }
                 alt="profile picture"
                 className="w-full h-full max-w-20 max-h-20"
               />

@@ -7,6 +7,7 @@ export const users = sqliteTable("users", {
   lastName: text("last_name").notNull(),
   passwordHash: text("password_hash").notNull(),
   createdAt: integer("created_at").notNull(),
+  profilePictureUrl: text("profile_picture_url"),
 });
 
 export const sessions = sqliteTable("sessions", {
