@@ -127,7 +127,7 @@ function RouteComponent() {
                     : mobileProfilePictureDefault
                 }
                 alt="profile picture"
-                className="w-full h-full max-w-20 max-h-20"
+                className="w-20 h-20 rounded-[50%] mb-6 object-cover"
               />
               <p className="header-h4 text-[2.1875rem] text-dark">
                 {user ? `${user.firstName} ${user.lastName}` : 'Loading...'}

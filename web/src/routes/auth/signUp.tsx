@@ -109,7 +109,7 @@ function RouteComponent() {
                   <img
                     src={preview}
                     alt="profile"
-                    className="w-32 h-32 object-cover rounded-full"
+                    className="w-16 h-16 object-cover rounded-[50%] my-4"
                   />
                 ) : (
                   <picture>
@@ -120,7 +120,7 @@ function RouteComponent() {
                     <img
                       src={profilePictureDefault}
                       alt="hero"
-                      className="w-full h-full object-cover cursor-pointer"
+                      className="w-20 h-20 my-3 object-cover cursor-pointer"
                     />
                   </picture>
                 )}

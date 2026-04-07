@@ -72,9 +72,13 @@ export default function Header() {
                   Logout
                 </p>
                 <img
-                  src={mobileProfilePictureDefault}
+                  src={
+                    user?.profilePictureUrl
+                      ? `http://localhost:8787/uploads/profiles/${user.profilePictureUrl}`
+                      : mobileProfilePictureDefault
+                  }
                   alt="hero"
-                  className="w-full h-full max-w-10 max-h-10 object-cover cursor-pointer"
+                  className="w-10 h-10 object-cover cursor-pointer rounded-[50%]"
                   onClick={handleProfile}
                 />
               </div>
@@ -115,9 +119,13 @@ export default function Header() {
                     onClick={handleProfile}
                   >
                     <img
-                      src={mobileProfilePictureDefault}
+                      src={
+                        user?.profilePictureUrl
+                          ? `http://localhost:8787/uploads/profiles/${user.profilePictureUrl}`
+                          : mobileProfilePictureDefault
+                      }
                       alt="profile picture"
-                      className="w-full h-full max-w-12 max-h-12 mr-7.5"
+                      className="w-12 h-12 object-cover cursor-pointer rounded-[50%] mr-7.5"
                     />
                     <h5 className="header-h5 text-2xl">
                       {user
