@@ -1,6 +1,5 @@
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
-import Map from '@/components/Map'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { createFileRoute } from '@tanstack/react-router'
@@ -9,17 +8,18 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import mobileProfilePictureDefault from '../../images/mobile-profile-picture-default.svg'
 import placeholderImage from '../../images/placeholder-image.png'
+import { lazy, Suspense } from 'react'
+
+const Map = lazy(() => import('@/components/Map'))
 
 export const Route = createFileRoute('/profile/profile')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { isSignedIn, setIsSignedIn, user, setUser } = useAuth()
+
   const geotagValuesSchema = z.object({
-    imageUrl: z
-      .string()
-      .url('Must be a valid URL')
-      .min(1, 'Image URL is required'),
     lat: z.number().min(-90).max(90),
     lng: z.number().min(-180).max(180),
   })
@@ -32,6 +32,7 @@ function RouteComponent() {
 
   const [address, setAddress] = useState<string>('Loading address...')
   const [isLoadingAddress, setIsLoadingAddress] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
 
   const {
     register,
@@ -42,7 +43,6 @@ function RouteComponent() {
   } = useForm<GeotagValues>({
     resolver: zodResolver(geotagValuesSchema),
     defaultValues: {
-      imageUrl: '',
       lat: markerPosition[0],
       lng: markerPosition[1],
     },
@@ -81,6 +81,14 @@ function RouteComponent() {
     fetchAddress(markerPosition[0], markerPosition[1])
   }, [markerPosition])
 
+  useEffect(() => {
+    if (user) {
+      setValue('firstName', user.firstName)
+      setValue('lastName', user.lastName)
+      setValue('email', user.email)
+    }
+  }, [user])
+
   const handleMarkerDragEnd = (newLat: number, newLng: number) => {
     setMarkerPosition([newLat, newLng])
     setValue('lat', newLat)
@@ -94,11 +102,15 @@ function RouteComponent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          lat: data.lat,
+          lng: data.lng,
+        }),
       })
 
       if (response.ok) {
         const geotag = await response.json()
+        setImageUrl(geotag.imageUrl)
         console.log('Geotag created:', geotag)
         alert('Geotag created successfully!')
       } else {
@@ -110,8 +122,6 @@ function RouteComponent() {
       alert('Network error')
     }
   }
-
-  const { isSignedIn, setIsSignedIn, user, setUser } = useAuth()
 
   return (
     <>
@@ -139,7 +149,7 @@ function RouteComponent() {
                 <input
                   type="text"
                   className="w-full h-full max-h-8.5 box-shadow text-dark text-[0.75rem] px-4 py-2 rounded-2xl"
-                  value={user?.firstName}
+                  {...register('firstName')}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -147,7 +157,7 @@ function RouteComponent() {
                 <input
                   type="text"
                   className="w-full h-full max-h-8.5 box-shadow text-dark text-[0.75rem] px-4 py-2 rounded-2xl"
-                  value={user?.lastName}
+                  {...register('lastName')}
                 />
               </div>
             </div>
@@ -156,7 +166,7 @@ function RouteComponent() {
               <input
                 type="text"
                 className="w-full h-full max-h-8.5 box-shadow text-dark text-[0.75rem] px-4 py-2 rounded-2xl"
-                value={user?.email}
+                {...register('email')}
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -177,7 +187,7 @@ function RouteComponent() {
             <p className="body-p text-dark">Upload image:</p>
           </div>
           <img
-            src={watch('imageUrl') || placeholderImage}
+            src={imageUrl || placeholderImage}
             alt="placeholder image"
             className="xl:max-h-[215.5px] object-cover rounded-2xl"
             onError={(e) => {
@@ -186,10 +196,12 @@ function RouteComponent() {
           />
           <input type="hidden" {...register('lat', { valueAsNumber: true })} />
           <input type="hidden" {...register('lng', { valueAsNumber: true })} />
-          <Map
-            position={markerPosition}
-            onMarkerDragEnd={handleMarkerDragEnd}
-          />
+          <Suspense fallback={<div>Loading map...</div>}>
+            <Map
+              position={markerPosition}
+              onMarkerDragEnd={handleMarkerDragEnd}
+            />
+          </Suspense>
           <div className="flex flex-col gap-4">
             <p className="body-p text-dark text-[1rem]">Location</p>
             <div className="px-4 py-2">

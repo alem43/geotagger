@@ -7,25 +7,52 @@ import {requireAuth} from "../middleware/requireAuth.js";
 const geotagsRoute = new Hono();
 
 geotagsRoute.post("/", requireAuth, async (c) => {
-  const {imageUrl, lat, lng} = await c.req.json();
-  if (!imageUrl || lat == null || lng == null)
+  const {lat, lng} = await c.req.json();
+
+  if (lat == null || lng == null) {
     return c.text("Invalid location", 400);
+  }
 
   const user = c.get("user");
 
-  const id = crypto.randomUUID();
-  const createdAt = Date.now();
+  try {
+    const response = await fetch(
+      `https://graph.mapillary.com/images?access_token=${process.env.MAPILLARY_TOKEN}&fields=id,thumb_1024_url,captured_at&lat=${lat}&lng=${lng}&radius=50`,
+    );
 
-  await db.insert(geotags).values({
-    id,
-    userId: user.id,
-    imageUrl,
-    lat,
-    lng,
-    createdAt,
-  });
+    const data = await response.json();
 
-  return c.json({id, imageUrl, lat, lng, createdAt});
+    if (!data.data || data.data.length === 0) {
+      console.log("No images found near these coordinates");
+      return c.json(
+        {
+          error:
+            "No street view images found within 50 meters of this location.",
+        },
+        404,
+      );
+    }
+
+    const image = data.data.sort((a, b) => b.captured_at - a.captured_at)[0];
+
+    const imageUrl = image.thumb_1024_url;
+
+    const id = crypto.randomUUID();
+    const createdAt = Date.now();
+
+    await db.insert(geotags).values({
+      id,
+      userId: user.id,
+      imageUrl,
+      lat,
+      lng,
+      createdAt,
+    });
+    return c.json({id, imageUrl, lat, lng, createdAt});
+  } catch (err) {
+    console.error(err);
+    return c.text("Mapillary error", 500);
+  }
 });
 
 export default geotagsRoute;
