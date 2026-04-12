@@ -33,6 +33,7 @@ function RouteComponent() {
   const [address, setAddress] = useState<string>('Loading address...')
   const [isLoadingAddress, setIsLoadingAddress] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
+  const [isLoadingImage, setIsLoadingImage] = useState(false)
 
   const {
     register,
@@ -79,6 +80,7 @@ function RouteComponent() {
 
   useEffect(() => {
     fetchAddress(markerPosition[0], markerPosition[1])
+    fetchPreviewImage(markerPosition[0], markerPosition[1])
   }, [markerPosition])
 
   useEffect(() => {
@@ -94,6 +96,31 @@ function RouteComponent() {
     setValue('lat', newLat)
     setValue('lng', newLng)
     fetchAddress(newLat, newLng)
+  }
+
+  const fetchPreviewImage = async (lat: number, lng: number) => {
+    setIsLoadingImage(true)
+    try {
+      const response = await fetch(
+        `http://localhost:8787/geotags/preview?lat=${lat}&lng=${lng}`,
+        {
+          credentials: 'include',
+        },
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.imageUrl) {
+          setImageUrl(data.imageUrl)
+        } else {
+          setImageUrl('')
+        }
+      }
+    } catch (error) {
+      console.error('Preview error:', error)
+    } finally {
+      setIsLoadingImage(false)
+    }
   }
 
   const onSubmit = async (data: GeotagValues) => {
@@ -127,7 +154,7 @@ function RouteComponent() {
     <>
       <Header />
       <div className="flex flex-col xl:flex-row gap-10.5 mx-auto mb-17.25 w-full max-w-85.5 xl:max-w-325 mt-8 xl:mt-10">
-        <div className="flex flex-col w-full h-full max-h-174 xl:max-h-189.75 xl:max-w-105 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
+        <div className="flex flex-col w-full h-full xl:max-h-189.75 xl:max-w-105 p-6 pt-4 box-shadow rounded-2xl gap-7.25">
           <div className="flex flex-col pt-20 pb-16.25 gap-6">
             <div className="flex flex-col items-center-safe">
               <img
@@ -184,7 +211,7 @@ function RouteComponent() {
           className="flex flex-col w-full h-full min-h-174 xl:max-h-189.75 xl:max-w-105 p-6 pt-4 box-shadow rounded-2xl gap-3.25"
         >
           <div className="flex flex-col gap-2">
-            <p className="body-p text-dark">Upload image:</p>
+            {isLoadingImage ? 'Loading...' : 'Upload image:'}
           </div>
           <img
             src={imageUrl || placeholderImage}
@@ -218,6 +245,11 @@ function RouteComponent() {
             {isSubmitting ? 'Adding...' : 'Add place'}
           </button>
         </form>
+        <div className="flex flex-col gap-6">
+          <div className="gradient-background rounded-2xl"></div>
+          <div className="gradient-background rounded-2xl"></div>
+          <div className="gradient-background rounded-2xl"></div>
+        </div>
       </div>
       <Footer />
     </>
