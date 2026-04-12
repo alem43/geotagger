@@ -1,7 +1,7 @@
 import {Hono} from "hono";
 import {db} from "../db/db.js";
 import {geotags} from "../db/schema.js";
-import {eq} from "drizzle-orm";
+import {eq, desc} from "drizzle-orm";
 import {requireAuth} from "../middleware/requireAuth.js";
 
 const geotagsRoute = new Hono();
@@ -31,6 +31,21 @@ geotagsRoute.get("/preview", async (c) => {
   } catch (err) {
     console.error(err);
     return c.json({error: "Mapillary error"}, 500);
+  }
+});
+
+geotagsRoute.get("/recent", requireAuth, async (c) => {
+  try {
+    const recentGeotags = await db
+      .select()
+      .from(geotags)
+      .orderBy(desc(geotags.createdAt))
+      .limit(27);
+
+    return c.json(recentGeotags);
+  } catch (err) {
+    console.error("Error fetching recent geotags:", err);
+    return c.json({error: "Failed to fetch recent geotags"}, 500);
   }
 });
 
