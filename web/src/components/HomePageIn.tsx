@@ -134,14 +134,20 @@ const HomePageIn = () => {
                         </Suspense>
                       </div>
                       <div className="flex flex-col">
-                        <div className="flex flex-col gap-2.75">
-                          <p className="body-p">Error distance</p>
+                        <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
+                          <p>Error distance</p>
                           <input
                             className="w-full h-full max-h-10 px-4 py-2"
                             type="text" /* value={errorDistance} */
                           />
                         </div>
-                        <div className="flex flex-col"></div>
+                        <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
+                          <p>Location</p>
+                          <input
+                            className="w-full h-full max-h-10 px-4 py-2"
+                            type="text" /* value={locationAddress} */
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
