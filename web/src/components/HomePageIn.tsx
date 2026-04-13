@@ -15,6 +15,15 @@ const HomePageIn = () => {
   const [recentUploads, setRecentUploads] = useState<Geotag[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isHidden, setIsHidden] = useState('hidden')
+
+  const toggleHidden = () => {
+    if (isHidden === 'flex') {
+      setIsHidden('hidden')
+    } else if (isHidden === 'hidden') {
+      setIsHidden('flex')
+    }
+  }
 
   useEffect(() => {
     const fetchRecentUploads = async () => {
@@ -44,9 +53,8 @@ const HomePageIn = () => {
   return (
     <>
       <Header />
-
       <div className="max-w-85.5 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16">
-        <div className="flex flex-col">
+        <div className={`${isHidden} flex-col`}>
           <h4 className="header-h4 text-[2.1875rem] text-primary leading-10 mb-4">
             Personal best guesses
           </h4>
@@ -65,7 +73,6 @@ const HomePageIn = () => {
               on a picture.
             </p>
           </div>
-
           {isLoading ? (
             <p className="body-p text-dark">Loading recent uploads...</p>
           ) : error ? (
@@ -88,6 +95,7 @@ const HomePageIn = () => {
                     onError={(e) => {
                       e.currentTarget.src = placeholderImage
                     }}
+                    onClick={toggleHidden}
                   />
                 </div>
               ))}
