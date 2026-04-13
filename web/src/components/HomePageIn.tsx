@@ -116,7 +116,7 @@ const HomePageIn = () => {
                   <div
                     className={`${isHidden} absolute top-0 left-0 w-full h-full bg-[#00000066] items-center`}
                   >
-                    <div className="flex flex-col bg-white w-full max-w-94.5 h-full max-h-175 p-7.5 pb-6 rounded-[36px] mx-auto gap-7.25">
+                    <div className="flex flex-col bg-white w-full max-w-94.5 h-full p-7.5 pb-6 rounded-[36px] mx-auto gap-7.25">
                       <img
                         src={upload.imageUrl || placeholderImage}
                         alt={`Upload from ${new Date(upload.createdAt).toLocaleDateString()}`}
@@ -148,6 +148,7 @@ const HomePageIn = () => {
                             type="text" /* value={locationAddress} */
                           />
                         </div>
+                        <button className="button-guess">Guess</button>
                       </div>
                     </div>
                   </div>
