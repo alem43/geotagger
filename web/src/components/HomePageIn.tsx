@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { lazy, Suspense } from 'react'
 import placeholderImage from '../images/placeholder-image.png'
+
+const Map = lazy(() => import('@/components/Map'))
 
 interface Geotag {
   id: string
@@ -12,6 +15,17 @@ interface Geotag {
 }
 
 const HomePageIn = () => {
+  const [markerPosition, setMarkerPosition] = useState<[number, number]>([
+    48.864716, 2.349014,
+  ])
+
+  const handleMarkerDragEnd = (newLat: number, newLng: number) => {
+    setMarkerPosition([newLat, newLng])
+    setValue('lat', newLat)
+    setValue('lng', newLng)
+    fetchAddress(newLat, newLng)
+  }
+
   const [recentUploads, setRecentUploads] = useState<Geotag[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -100,17 +114,35 @@ const HomePageIn = () => {
                     />
                   </div>
                   <div
-                    className={`${isHidden} absolute top-0 left-0 w-full h-full bg-[#00000066]`}
+                    className={`${isHidden} absolute top-0 left-0 w-full h-full bg-[#00000066] items-center`}
                   >
-                    <div className="flex flex-col w-full max-w-94.5 h-full max-h-175 p-7.5 pb-6 rounded-[36px]">
+                    <div className="flex flex-col bg-white w-full max-w-94.5 h-full max-h-175 p-7.5 pb-6 rounded-[36px] mx-auto gap-7.25">
                       <img
                         src={upload.imageUrl || placeholderImage}
                         alt={`Upload from ${new Date(upload.createdAt).toLocaleDateString()}`}
-                        className="w-full h-full max-h-[185.5px] object-cover"
+                        className="w-full h-full max-h-[185.5px] object-cover rounded-2xl"
                         onError={(e) => {
                           e.currentTarget.src = placeholderImage
                         }}
                       />
+                      <div className="w-full h-full max-h-[185.5px] mt-4">
+                        <Suspense fallback={<div>Loading map...</div>}>
+                          <Map
+                            position={markerPosition}
+                            onMarkerDragEnd={handleMarkerDragEnd}
+                          />
+                        </Suspense>
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="flex flex-col gap-2.75">
+                          <p className="body-p">Error distance</p>
+                          <input
+                            className="w-full h-full max-h-10 px-4 py-2"
+                            type="text" /* value={errorDistance} */
+                          />
+                        </div>
+                        <div className="flex flex-col"></div>
+                      </div>
                     </div>
                   </div>
                 </>
