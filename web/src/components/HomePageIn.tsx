@@ -54,7 +54,7 @@ const HomePageIn = () => {
     <>
       <Header />
       <div className="max-w-85.5 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16">
-        <div className={`${isHidden} flex-col`}>
+        <div className="flex flex-col">
           <h4 className="header-h4 text-[2.1875rem] text-primary leading-10 mb-4">
             Personal best guesses
           </h4>
@@ -84,20 +84,36 @@ const HomePageIn = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5.25 mb-12.75">
               {recentUploads.map((upload) => (
-                <div
-                  key={upload.id}
-                  className="rounded-2xl overflow-hidden w-full h-full max-w-104.75 max-h-48.25 xl:max-h-59.25"
-                >
-                  <img
-                    src={upload.imageUrl || placeholderImage}
-                    alt={`Upload from ${new Date(upload.createdAt).toLocaleDateString()}`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = placeholderImage
-                    }}
-                    onClick={toggleHidden}
-                  />
-                </div>
+                <>
+                  <div
+                    key={upload.id}
+                    className="rounded-2xl overflow-hidden w-full h-full max-w-104.75 max-h-48.25 xl:max-h-59.25"
+                  >
+                    <img
+                      src={upload.imageUrl || placeholderImage}
+                      alt={`Upload from ${new Date(upload.createdAt).toLocaleDateString()}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = placeholderImage
+                      }}
+                      onClick={toggleHidden}
+                    />
+                  </div>
+                  <div
+                    className={`${isHidden} absolute top-0 left-0 w-full h-full bg-[#00000066]`}
+                  >
+                    <div className="flex flex-col w-full max-w-94.5 h-full max-h-175 p-7.5 pb-6 rounded-[36px]">
+                      <img
+                        src={upload.imageUrl || placeholderImage}
+                        alt={`Upload from ${new Date(upload.createdAt).toLocaleDateString()}`}
+                        className="w-full h-full max-h-[185.5px] object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = placeholderImage
+                        }}
+                      />
+                    </div>
+                  </div>
+                </>
               ))}
             </div>
           )}
@@ -106,6 +122,7 @@ const HomePageIn = () => {
           </button>
         </div>
       </div>
+
       <Footer />
     </>
   )
