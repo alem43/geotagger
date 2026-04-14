@@ -15,28 +15,81 @@ interface Geotag {
 }
 
 const HomePageIn = () => {
+  const [recentUploads, setRecentUploads] = useState<Geotag[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const [activeUploadId, setActiveUploadId] = useState<string | null>(null)
+
   const [markerPosition, setMarkerPosition] = useState<[number, number]>([
     48.864716, 2.349014,
   ])
 
+  const [locationAddress, setLocationAddress] = useState('')
+  const [errorDistance, setErrorDistance] = useState('')
+
   const handleMarkerDragEnd = (newLat: number, newLng: number) => {
     setMarkerPosition([newLat, newLng])
-    setValue('lat', newLat)
-    setValue('lng', newLng)
-    fetchAddress(newLat, newLng)
   }
 
-  const [recentUploads, setRecentUploads] = useState<Geotag[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [isHidden, setIsHidden] = useState('hidden')
-
-  const toggleHidden = () => {
-    if (isHidden === 'flex') {
-      setIsHidden('hidden')
-    } else if (isHidden === 'hidden') {
-      setIsHidden('flex')
+  const fetchAddress = async (lat: number, lng: number) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+      )
+      const data = await response.json()
+      setLocationAddress(data.display_name || 'Address not found')
+    } catch (err) {
+      console.error('Error fetching address:', err)
+      setLocationAddress('Error fetching address')
     }
+  }
+
+  const openModal = (uploadId: string, lat: number, lng: number) => {
+    setActiveUploadId(uploadId)
+    setMarkerPosition([lat, lng])
+  }
+
+  const closeModal = () => {
+    setActiveUploadId(null)
+    setErrorDistance('')
+    setLocationAddress('')
+  }
+
+  const handleGuess = async () => {
+    const activeUpload = recentUploads.find((u) => u.id === activeUploadId)
+    if (!activeUpload) return
+
+    const distanceKm = calculateDistance(
+      markerPosition[0],
+      markerPosition[1],
+      activeUpload.lat,
+      activeUpload.lng,
+    )
+
+    const distanceMeters = distanceKm * 1000
+    setErrorDistance(`${Math.round(distanceMeters)} m`)
+
+    await fetchAddress(activeUpload.lat, activeUpload.lng)
+  }
+
+  const calculateDistance = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ) => {
+    const R = 6371
+    const dLat = ((lat2 - lat1) * Math.PI) / 180
+    const dLon = ((lon2 - lon1) * Math.PI) / 180
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return R * c
   }
 
   useEffect(() => {
@@ -98,61 +151,20 @@ const HomePageIn = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5.25 mb-12.75">
               {recentUploads.map((upload) => (
-                <>
-                  <div
-                    key={upload.id}
-                    className="rounded-2xl overflow-hidden w-full h-full max-w-104.75 max-h-48.25 xl:max-h-59.25"
-                  >
-                    <img
-                      src={upload.imageUrl || placeholderImage}
-                      alt={`Upload from ${new Date(upload.createdAt).toLocaleDateString()}`}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.src = placeholderImage
-                      }}
-                      onClick={toggleHidden}
-                    />
-                  </div>
-                  <div
-                    className={`${isHidden} absolute top-0 left-0 w-full h-full bg-[#00000066] items-center`}
-                  >
-                    <div className="flex flex-col bg-white w-full max-w-94.5 h-full p-7.5 pb-6 rounded-[36px] mx-auto gap-7.25">
-                      <img
-                        src={upload.imageUrl || placeholderImage}
-                        alt={`Upload from ${new Date(upload.createdAt).toLocaleDateString()}`}
-                        className="w-full h-full max-h-[185.5px] object-cover rounded-2xl"
-                        onError={(e) => {
-                          e.currentTarget.src = placeholderImage
-                        }}
-                      />
-                      <div className="w-full h-full max-h-[185.5px] mt-4">
-                        <Suspense fallback={<div>Loading map...</div>}>
-                          <Map
-                            position={markerPosition}
-                            onMarkerDragEnd={handleMarkerDragEnd}
-                          />
-                        </Suspense>
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
-                          <p>Error distance</p>
-                          <input
-                            className="w-full h-full max-h-10 px-4 py-2"
-                            type="text" /* value={errorDistance} */
-                          />
-                        </div>
-                        <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
-                          <p>Location</p>
-                          <input
-                            className="w-full h-full max-h-10 px-4 py-2"
-                            type="text" /* value={locationAddress} */
-                          />
-                        </div>
-                        <button className="button-guess">Guess</button>
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <div
+                  key={upload.id}
+                  className="rounded-2xl overflow-hidden w-full h-full max-w-104.75 max-h-48.25 xl:max-h-59.25 cursor-pointer"
+                  onClick={() => openModal(upload.id, upload.lat, upload.lng)}
+                >
+                  <img
+                    src={upload.imageUrl || placeholderImage}
+                    alt={`Upload from ${new Date(upload.createdAt).toLocaleDateString()}`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = placeholderImage
+                    }}
+                  />
+                </div>
               ))}
             </div>
           )}
@@ -161,7 +173,60 @@ const HomePageIn = () => {
           </button>
         </div>
       </div>
-
+      {activeUploadId && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-[#00000099] flex items-center justify-center z-50"
+          onClick={closeModal}
+        >
+          <div
+            className="flex flex-col bg-white w-full max-w-94.5 p-7.5 pb-6 rounded-[36px] mx-auto gap-7.25 overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={
+                recentUploads.find((u) => u.id === activeUploadId)?.imageUrl ||
+                placeholderImage
+              }
+              alt="Upload"
+              className="w-full h-[185.5px] max-h-[185.5px] object-cover rounded-2xl"
+              onError={(e) => {
+                e.currentTarget.src = placeholderImage
+              }}
+            />
+            <div className="w-full h-full max-h-[185.5px] overflow-hidden rounded-[19px]">
+              <Suspense fallback={<div>Loading map...</div>}>
+                <Map
+                  position={markerPosition}
+                  onMarkerDragEnd={handleMarkerDragEnd}
+                />
+              </Suspense>
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
+                <p>Location</p>
+                <input
+                  className="w-full h-full max-h-10 px-4 py-2 rounded"
+                  type="text"
+                  value={errorDistance ? locationAddress : ''}
+                  readOnly
+                />
+              </div>
+              <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
+                <p>Error distance</p>
+                <input
+                  className="w-full h-full max-h-10 px-4 py-2 rounded"
+                  type="text"
+                  value={errorDistance}
+                  readOnly
+                />
+              </div>
+              <button onClick={handleGuess} className="button-guess">
+                Guess
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </>
   )
