@@ -76,7 +76,10 @@ geotagsRoute.post("/", requireAuth, async (c) => {
       );
     }
 
-    const image = data.data.sort((a, b) => b.captured_at - a.captured_at)[0];
+    const image = data.data.sort(
+      (a: {captured_at: number}, b: {captured_at: number}) =>
+        b.captured_at - a.captured_at,
+    )[0];
 
     const imageUrl = image.thumb_1024_url;
 

@@ -4,7 +4,7 @@ import {users, sessions} from "../db/schema.js";
 import {eq} from "drizzle-orm";
 
 export const requireAuth: MiddlewareHandler = async (c, next) => {
-  const cookieReturn = await c.req.header("cookie");
+  const cookieReturn = c.req.header("cookie");
   if (!cookieReturn) {
     return c.text("Unauthorized", 401);
   }
