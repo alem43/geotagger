@@ -164,11 +164,11 @@ const HomePageIn = () => {
               No uploads yet. Start adding places!
             </p>
           ) : (
-            <div className="grid grid-cols-1 gap-5.25 mb-12.75 mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5.25 mb-12.75 w-full">
               {recentUploads.map((upload) => (
                 <div
                   key={upload.id}
-                  className="rounded-2xl overflow-hidden w-full h-full max-w-104.75 max-h-48.25 xl:max-h-59.25 cursor-pointer"
+                  className="rounded-2xl overflow-hidden w-full h-full max-w-104.75 max-h-48.25 xl:max-h-59.25 cursor-pointer mx-auto"
                   onClick={() => openModal(upload.id, upload.lat, upload.lng)}
                 >
                   <img
