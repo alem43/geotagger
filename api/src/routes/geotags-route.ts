@@ -3,6 +3,7 @@ import {db} from "../db/db.js";
 import {geotags} from "../db/schema.js";
 import {eq, desc} from "drizzle-orm";
 import {requireAuth} from "../middleware/requireAuth.js";
+import crypto from "node:crypto";
 
 const geotagsRoute = new Hono();
 

@@ -37,7 +37,9 @@ app.route("/auth", authRoute);
 
 app.route("/me", meRoute);
 
-app.get("/protected", requireAuth, (c) => {
+app.use("/protected", requireAuth);
+
+app.get("/protected", (c) => {
   const user = c.get("user");
   return c.text(`ok protected: ${user.email}`);
 });

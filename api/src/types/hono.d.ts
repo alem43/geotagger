@@ -1,6 +1,4 @@
-import type {users} from "../db/schema";
-
-type User = typeof users.$inferSelect;
+import type {User} from "../db/schema";
 
 declare module "hono" {
   interface ContextVariableMap {

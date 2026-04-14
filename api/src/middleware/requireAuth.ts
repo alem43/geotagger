@@ -2,8 +2,14 @@ import type {MiddlewareHandler} from "hono";
 import {db} from "../db/db.js";
 import {users, sessions} from "../db/schema.js";
 import {eq} from "drizzle-orm";
+import type {MiddlewareHandler} from "hono";
+import type {User} from "../db/schema";
 
-export const requireAuth: MiddlewareHandler = async (c, next) => {
+export const requireAuth: MiddlewareHandler<{
+  Variables: {
+    user: User;
+  };
+}> = async (c, next) => {
   const cookieReturn = c.req.header("cookie");
   if (!cookieReturn) {
     return c.text("Unauthorized", 401);
