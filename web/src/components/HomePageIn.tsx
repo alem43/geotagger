@@ -117,6 +117,21 @@ const HomePageIn = () => {
     fetchRecentUploads()
   }, [])
 
+  function useWindowWidth() {
+    const [width, setWidth] = useState(window.innerWidth)
+
+    useEffect(() => {
+      const handleResize = () => setWidth(window.innerWidth)
+      window.addEventListener('resize', handleResize)
+
+      return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
+    return width
+  }
+
+  const width = useWindowWidth()
+
   return (
     <>
       <Header />
@@ -179,7 +194,7 @@ const HomePageIn = () => {
           onClick={closeModal}
         >
           <div
-            className="flex flex-col bg-white w-full max-w-94.5 p-7.5 pb-6 rounded-[36px] mx-auto gap-7.25 overflow-y-auto"
+            className="flex flex-col xl:flex-row bg-white w-full max-w-94.5 xl:max-w-325.25 xl:max-h-99 p-7.5 xl:p-6 pb-6 rounded-[36px] mx-auto gap-7.25 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <img
@@ -188,41 +203,48 @@ const HomePageIn = () => {
                 placeholderImage
               }
               alt="Upload"
-              className="w-full h-[185.5px] max-h-[185.5px] object-cover rounded-2xl"
+              className="w-full h-full max-h-[185.5px] xl:max-h-87 xl:max-w-153 object-cover rounded-2xl"
               onError={(e) => {
                 e.currentTarget.src = placeholderImage
               }}
             />
-            <div className="w-full h-full max-h-[185.5px] overflow-hidden rounded-[19px]">
-              <Suspense fallback={<div>Loading map...</div>}>
-                <Map
-                  position={markerPosition}
-                  onMarkerDragEnd={handleMarkerDragEnd}
-                />
-              </Suspense>
-            </div>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
-                <p>Location</p>
-                <input
-                  className="w-full h-full max-h-10 px-4 py-2 rounded"
-                  type="text"
-                  value={errorDistance ? locationAddress : ''}
-                  readOnly
-                />
+            <div className="flex flex-row xl:flex-col w-full">
+              <div className="w-full h-full max-h-[185.5px] overflow-hidden rounded-[19px]">
+                <Suspense fallback={<div>Loading map...</div>}>
+                  <Map
+                    position={markerPosition}
+                    onMarkerDragEnd={handleMarkerDragEnd}
+                  />
+                </Suspense>
               </div>
-              <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
-                <p>Error distance</p>
-                <input
-                  className="w-full h-full max-h-10 px-4 py-2 rounded"
-                  type="text"
-                  value={errorDistance}
-                  readOnly
-                />
+              <div className="flex flex-col h-full gap-4 justify-between xl:relative">
+                <div className="flex flex-col xl:flex-row xl:mt-4">
+                  <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
+                    <p>Error distance</p>
+                    <input
+                      className="w-full h-full max-h-10 px-4 py-2 rounded"
+                      type="text"
+                      value={errorDistance}
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2.75 body-p text-black text-[1rem]">
+                    <p>{width < 1280 ? `Location` : `Guessed location`}</p>
+                    <input
+                      className="w-full h-full max-h-10 px-4 py-2 rounded"
+                      type="text"
+                      value={errorDistance ? locationAddress : ''}
+                      readOnly
+                    />
+                  </div>
+                </div>
+                <button
+                  onClick={handleGuess}
+                  className="button-guess w-full xl:max-w-34.25 xl:absolute right-0 bottom-0"
+                >
+                  Guess
+                </button>
               </div>
-              <button onClick={handleGuess} className="button-guess">
-                Guess
-              </button>
             </div>
           </div>
         </div>
