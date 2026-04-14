@@ -135,7 +135,7 @@ const HomePageIn = () => {
   return (
     <>
       <Header />
-      <div className="max-w-85.5 sm:max-w-155 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16 sm:text-center">
+      <div className="max-w-85.5 sm:max-w-155 lg:max-w-250 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16 sm:text-center">
         <div className="flex flex-col">
           <h4 className="header-h4 text-[2.1875rem] text-primary leading-10 mb-4">
             Personal best guesses
@@ -164,7 +164,7 @@ const HomePageIn = () => {
               No uploads yet. Start adding places!
             </p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5.25 mb-12.75 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5.25 mb-12.75 w-full">
               {recentUploads.map((upload) => (
                 <div
                   key={upload.id}
