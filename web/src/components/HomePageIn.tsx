@@ -135,12 +135,12 @@ const HomePageIn = () => {
   return (
     <>
       <Header />
-      <div className="max-w-85.5 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16">
+      <div className="max-w-85.5 sm:max-w-155 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16 sm:text-center">
         <div className="flex flex-col">
           <h4 className="header-h4 text-[2.1875rem] text-primary leading-10 mb-4">
             Personal best guesses
           </h4>
-          <p className="body-p text-dark mb-8 max-w-[20rem] xl:max-w-none h-119.5">
+          <p className="body-p text-dark mb-8 max-w-[20rem] sm:max-w-none h-119.5 mx-auto">
             Your personal best guesses appear here. Go on and try to beat your
             personal records or set new!
           </p>
@@ -150,7 +150,7 @@ const HomePageIn = () => {
             <h4 className="header-h4 text-[2.1875rem] text-primary">
               New uploads
             </h4>
-            <p className="body-p text-dark max-w-[20rem] xl:max-w-none mb-16">
+            <p className="body-p text-dark max-w-[20rem] sm:max-w-none mb-16 mx-auto">
               New uploads from users. Try to guess all the locations by pressing
               on a picture.
             </p>
@@ -164,7 +164,7 @@ const HomePageIn = () => {
               No uploads yet. Start adding places!
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5.25 mb-12.75">
+            <div className="grid grid-cols-1 gap-5.25 mb-12.75 mx-auto">
               {recentUploads.map((upload) => (
                 <div
                   key={upload.id}
@@ -208,8 +208,8 @@ const HomePageIn = () => {
                 e.currentTarget.src = placeholderImage
               }}
             />
-            <div className="flex flex-row xl:flex-col w-full">
-              <div className="w-full h-full max-h-[185.5px] overflow-hidden rounded-[19px]">
+            <div className="flex flex-col w-full gap-7.25 xl:gap-0">
+              <div className="w-full h-full max-h-[11.5938rem] overflow-hidden rounded-[19px]">
                 <Suspense fallback={<div>Loading map...</div>}>
                   <Map
                     position={markerPosition}
