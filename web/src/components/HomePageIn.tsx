@@ -194,7 +194,7 @@ const HomePageIn = () => {
           onClick={closeModal}
         >
           <div
-            className="flex flex-col xl:flex-row bg-white w-full max-w-94.5 xl:max-w-325.25 xl:max-h-99 p-7.5 xl:p-6 pb-6 rounded-[36px] mx-auto gap-7.25 overflow-y-auto"
+            className="flex flex-col xl:flex-row bg-white w-full max-w-94.5 sm:max-w-140 xl:max-w-325.25 xl:max-h-99 p-7.5 xl:p-6 pb-6 rounded-[36px] mx-auto gap-7.25 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <img
@@ -203,7 +203,7 @@ const HomePageIn = () => {
                 placeholderImage
               }
               alt="Upload"
-              className="w-full h-full max-h-[185.5px] xl:max-h-87 xl:max-w-153 object-cover rounded-2xl"
+              className="w-full h-full max-h-[185.5px] sm:max-h-75 xl:max-h-87 xl:max-w-153 object-cover rounded-2xl"
               onError={(e) => {
                 e.currentTarget.src = placeholderImage
               }}
