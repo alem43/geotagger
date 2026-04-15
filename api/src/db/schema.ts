@@ -28,3 +28,13 @@ export const geotags = sqliteTable("geotags", {
   lng: real("lng").notNull(),
   createdAt: integer("created_at").notNull(),
 });
+
+export const guesses = sqliteTable("guesses", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  geotagId: text("geotag_id").notNull(),
+  guessedLat: real("guessed_lat").notNull(),
+  guessedLng: real("guessed_lng").notNull(),
+  distanceMeters: integer("distance_meters").notNull(),
+  createdAt: integer("created_at").notNull(),
+});

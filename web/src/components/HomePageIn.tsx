@@ -57,39 +57,30 @@ const HomePageIn = () => {
   }
 
   const handleGuess = async () => {
-    const activeUpload = recentUploads.find((u) => u.id === activeUploadId)
-    if (!activeUpload) return
+    if (!activeUploadId) return
 
-    const distanceKm = calculateDistance(
-      markerPosition[0],
-      markerPosition[1],
-      activeUpload.lat,
-      activeUpload.lng,
-    )
+    const response = await fetch('http://localhost:8787/guesses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        geotagId: activeUploadId,
+        lat: markerPosition[0],
+        lng: markerPosition[1],
+      }),
+    })
 
-    const distanceMeters = distanceKm * 1000
-    setErrorDistance(`${Math.round(distanceMeters)} m`)
+    const data = await response.json()
 
-    await fetchAddress(activeUpload.lat, activeUpload.lng)
-  }
+    if (response.ok) {
+      setErrorDistance(`${data.distanceMeters} m`)
 
-  const calculateDistance = (
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number,
-  ) => {
-    const R = 6371
-    const dLat = ((lat2 - lat1) * Math.PI) / 180
-    const dLon = ((lon2 - lon1) * Math.PI) / 180
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos((lat1 * Math.PI) / 180) *
-        Math.cos((lat2 * Math.PI) / 180) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2)
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    return R * c
+      const activeUpload = recentUploads.find((u) => u.id === activeUploadId)
+
+      if (activeUpload) {
+        await fetchAddress(activeUpload.lat, activeUpload.lng)
+      }
+    }
   }
 
   useEffect(() => {
@@ -130,20 +121,58 @@ const HomePageIn = () => {
     return width
   }
 
+  const [topGuesses, setTopGuesses] = useState<
+    { id: string; distanceMeters: number }[]
+  >([])
+
+  useEffect(() => {
+    const fetchTopGuesses = async () => {
+      try {
+        const res = await fetch('http://localhost:8787/guesses/top3', {
+          credentials: 'include',
+        })
+
+        if (!res.ok) return
+
+        const data = await res.json()
+        setTopGuesses(data)
+      } catch (err) {
+        console.error('Failed to load top guesses:', err)
+      }
+    }
+
+    fetchTopGuesses()
+  }, [])
+
   const width = useWindowWidth()
 
   return (
     <>
       <Header />
-      <div className="max-w-85.5 sm:max-w-155 lg:max-w-250 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16 sm:text-center">
+      <div className="max-w-85.5 sm:max-w-155 lg:max-w-250 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16 sm:text-center xl:text-left">
         <div className="flex flex-col">
           <h4 className="header-h4 text-[2.1875rem] text-primary leading-10 mb-4">
             Personal best guesses
           </h4>
-          <p className="body-p text-dark mb-8 max-w-[20rem] sm:max-w-none h-119.5 mx-auto">
-            Your personal best guesses appear here. Go on and try to beat your
-            personal records or set new!
-          </p>
+          {topGuesses.length === 0 ? (
+            <p className="body-p text-dark mb-8 max-w-[20rem] sm:max-w-none h-119.5">
+              No guesses yet. Start playing to set your personal best!
+            </p>
+          ) : (
+            <div className="flex flex-col gap-3 mb-8">
+              {topGuesses.map((g, index) => (
+                <div
+                  key={g.id}
+                  className="flex items-center justify-between bg-white shadow rounded-xl px-4 py-3"
+                >
+                  <p className="body-p text-dark">#{index + 1} Best guess</p>
+                  <p className="body-p text-primary font-semibold">
+                    {g.distanceMeters} m
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className="flex flex-col">
           <div>

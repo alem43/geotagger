@@ -11,6 +11,7 @@ import healthRoute from "./routes/health-route.js";
 import authRoute from "./routes/auth-route.js";
 import meRoute from "./routes/me-route.js";
 import geotagsRoute from "./routes/geotags-route.js";
+import guessesRoute from "./routes/guesses-route.js";
 import {logger} from "hono/logger";
 import fs from "fs";
 import path from "path";
@@ -72,6 +73,8 @@ app.get("/uploads/profiles/:filename", async (c) => {
 });
 
 app.route("/geotags", geotagsRoute);
+
+app.route("/guesses", guessesRoute);
 
 serve(
   {
