@@ -150,7 +150,7 @@ const HomePageIn = () => {
     <>
       <Header />
       <div className="max-w-85.5 sm:max-w-155 lg:max-w-250 xl:max-w-325 mx-auto mt-14 mb-12.75 gap-16 sm:text-center xl:text-left">
-        <div className="flex flex-col">
+        <div className="flex flex-col mb-16">
           <h4 className="header-h4 text-[2.1875rem] text-primary leading-10 mb-4">
             Personal best guesses
           </h4>
@@ -159,19 +159,31 @@ const HomePageIn = () => {
               No guesses yet. Start playing to set your personal best!
             </p>
           ) : (
-            <div className="flex flex-col gap-3 mb-8">
-              {topGuesses.map((g, index) => (
-                <div
-                  key={g.id}
-                  className="flex items-center justify-between bg-white shadow rounded-xl px-4 py-3"
-                >
-                  <p className="body-p text-dark">#{index + 1} Best guess</p>
-                  <p className="body-p text-primary font-semibold">
-                    {g.distanceMeters} m
-                  </p>
-                </div>
-              ))}
-            </div>
+            <>
+              <p className="body-p text-dark mb-8 max-w-[20rem] sm:max-w-none">
+                Your personal best guesses appear here. Go on and try to beat
+                your personal records or set new!
+              </p>
+              <div className="flex gap-4.25 mb-8 w-screen overflow-x-auto xl:w-284.75 xl:overflow-x-visible -ml-[calc((100vw-100%)/2)] xl:ml-0 px-8.75 xl:px-0 xl:mx-auto scrollbar-hide">
+                {topGuesses.map((g) => (
+                  <div
+                    className="relative flex shrink-0 w-[85%] sm:w-[calc(50%-1.0625rem)] xl:w-full h-full max-w-86.25 max-h-48.5 rounded-2xl gradient-background z-40 overflow-hidden"
+                    key={g.id}
+                  >
+                    <div
+                      style={{ backgroundImage: `url(${g.imageUrl})` }}
+                      className="w-86.25 h-48.5 rounded-2xl bg-cover bg-center"
+                    >
+                      <div className="w-full h-full gradient-background flex items-center-safe justify-center-safe">
+                        <p className="text-2xl font-bold text-white font-raleway">
+                          {g.distanceMeters}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
         <div className="flex flex-col">
@@ -179,7 +191,7 @@ const HomePageIn = () => {
             <h4 className="header-h4 text-[2.1875rem] text-primary">
               New uploads
             </h4>
-            <p className="body-p text-dark max-w-[20rem] sm:max-w-none mb-16 mx-auto">
+            <p className="body-p text-dark max-w-[20rem] sm:max-w-none mb-16">
               New uploads from users. Try to guess all the locations by pressing
               on a picture.
             </p>

@@ -80,8 +80,13 @@ guessesRoute.get("/top3", requireAuth, async (c) => {
   const user = c.get("user");
 
   const topGuesses = await db
-    .select()
+    .select({
+      id: guesses.id,
+      distanceMeters: guesses.distanceMeters,
+      imageUrl: geotags.imageUrl,
+    })
     .from(guesses)
+    .innerJoin(geotags, eq(guesses.geotagId, geotags.id))
     .where(eq(guesses.userId, user.id))
     .orderBy(asc(guesses.distanceMeters))
     .limit(3);
