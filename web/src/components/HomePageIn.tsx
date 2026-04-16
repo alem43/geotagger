@@ -167,16 +167,16 @@ const HomePageIn = () => {
               <div className="flex gap-4.25 mb-8 w-screen overflow-x-auto xl:w-284.75 xl:overflow-x-visible -ml-[calc((100vw-100%)/2)] xl:ml-0 px-8.75 xl:px-0 xl:mx-auto scrollbar-hide">
                 {topGuesses.map((g) => (
                   <div
-                    className="relative flex shrink-0 w-[85%] sm:w-[calc(50%-1.0625rem)] xl:w-full h-full max-w-86.25 max-h-48.5 rounded-2xl gradient-background z-40 overflow-hidden"
+                    className="relative flex shrink-0 w-[85%] sm:w-[calc(50%-1.0625rem)] xl:w-full xl:max-w-105 h-full max-w-86.25 max-h-48.5 xl:max-h-59 rounded-2xl gradient-background z-40 overflow-hidden mx-auto"
                     key={g.id}
                   >
                     <div
                       style={{ backgroundImage: `url(${g.imageUrl})` }}
-                      className="w-86.25 h-48.5 rounded-2xl bg-cover bg-center"
+                      className="w-full h-48.5 xl:h-59 rounded-2xl bg-cover bg-center"
                     >
                       <div className="w-full h-full gradient-background flex items-center-safe justify-center-safe">
-                        <p className="text-2xl font-bold text-white font-raleway">
-                          {g.distanceMeters}
+                        <p className="text-2xl font-semibold text-white font-poppins">
+                          {g.distanceMeters} m
                         </p>
                       </div>
                     </div>
