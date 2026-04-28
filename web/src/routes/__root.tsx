@@ -37,7 +37,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <AuthProvider>{children}</AuthProvider>
-
         {/* <TanStackDevtools
           config={{
             position: 'bottom-right',
