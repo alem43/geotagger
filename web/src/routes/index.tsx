@@ -20,7 +20,7 @@ function App() {
   const { isSignedIn, setIsSignedIn } = useAuth()
 
   useEffect(() => {
-    fetch('http://localhost:8787/health')
+    fetch(`${import.meta.env.VITE_API_URL}/health`)
       .then((res) => res.text())
       .then((text) => setApiStatus(text))
       .catch(() => setApiStatus('error'))

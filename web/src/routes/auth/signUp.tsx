@@ -141,7 +141,7 @@ function RouteComponent() {
                   }
 
                   const response = await fetch(
-                    'http://localhost:8787/auth/register',
+                    `${import.meta.env.VITE_API_URL}/me`,
                     {
                       method: 'POST',
                       credentials: 'include',

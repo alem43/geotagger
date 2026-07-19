@@ -23,7 +23,7 @@ app.use("*", logger());
 app.use(
   "*",
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true,
   }),
 );
@@ -79,9 +79,10 @@ app.route("/guesses", guessesRoute);
 serve(
   {
     fetch: app.fetch,
-    port: 8787,
+    port: Number(process.env.PORT) || 8787,
+    hostname: "0.0.0.0",
   },
   (info) => {
-    console.log(`Server is running on http://localhost:${info.port}`);
+    console.log(`Server is running on port ${info.port}`);
   },
 );

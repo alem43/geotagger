@@ -26,7 +26,10 @@ geotagsRoute.get("/preview", async (c) => {
       return c.json({imageUrl: null, message: "No nearby image found"}, 200);
     }
 
-    const image = data.data.sort((a, b) => b.captured_at - a.captured_at)[0];
+    const image = data.data.sort(
+      (a: {captured_at: number}, b: {captured_at: number}) =>
+        b.captured_at - a.captured_at,
+    )[0];
 
     return c.json({imageUrl: image.thumb_1024_url});
   } catch (err) {

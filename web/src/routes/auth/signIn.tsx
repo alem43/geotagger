@@ -81,7 +81,7 @@ function RouteComponent() {
               onSubmit={handleSubmit(async (data) => {
                 try {
                   const response = await fetch(
-                    'http://localhost:8787/auth/login',
+                    `${import.meta.env.VITE_API_URL}/auth/login`,
                     {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
@@ -91,7 +91,7 @@ function RouteComponent() {
                   )
                   if (response.ok) {
                     const userResponse = await fetch(
-                      'http://localhost:8787/me',
+                      `${import.meta.env.VITE_API_URL}/me`,
                       {
                         credentials: 'include',
                       },

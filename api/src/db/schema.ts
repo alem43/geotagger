@@ -38,3 +38,5 @@ export const guesses = sqliteTable("guesses", {
   distanceMeters: integer("distance_meters").notNull(),
   createdAt: integer("created_at").notNull(),
 });
+
+export type User = typeof users.$inferSelect;

@@ -102,7 +102,7 @@ function RouteComponent() {
     setIsLoadingImage(true)
     try {
       const response = await fetch(
-        `http://localhost:8787/geotags/preview?lat=${lat}&lng=${lng}`,
+        `${import.meta.env.VITE_API_URL}/me/geotags/preview?lat=${lat}&lng=${lng}`,
         {
           credentials: 'include',
         },
@@ -125,15 +125,18 @@ function RouteComponent() {
 
   const onSubmit = async (data: GeotagValues) => {
     try {
-      const response = await fetch('http://localhost:8787/geotags', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          lat: data.lat,
-          lng: data.lng,
-        }),
-      })
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/me/geotags`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            lat: data.lat,
+            lng: data.lng,
+          }),
+        },
+      )
 
       if (response.ok) {
         const geotag = await response.json()
@@ -160,7 +163,7 @@ function RouteComponent() {
               <img
                 src={
                   user?.profilePictureUrl
-                    ? `http://localhost:8787/uploads/profiles/${user.profilePictureUrl}`
+                    ? `${import.meta.env.VITE_API_URL}/me/uploads/profiles/${user.profilePictureUrl}`
                     : mobileProfilePictureDefault
                 }
                 alt="profile picture"

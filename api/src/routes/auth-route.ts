@@ -18,7 +18,12 @@ authRoute.post("/register", async (c) => {
   const lastName = body.lastName;
   const profilePicture = body.profilePicture;
 
-  if (!email || !password || !firstName || !lastName) {
+  if (
+    typeof email !== "string" ||
+    typeof password !== "string" ||
+    typeof firstName !== "string" ||
+    typeof lastName !== "string"
+  ) {
     return c.text("Credentials not valid", 400);
   }
 
@@ -40,7 +45,6 @@ authRoute.post("/register", async (c) => {
       return c.text("File too large. Max 5MB.", 400);
     }
 
-    // safer extension (DO NOT trust original filename)
     const mimeToExt: Record<string, string> = {
       "image/jpeg": "jpg",
       "image/png": "png",
@@ -54,7 +58,6 @@ authRoute.post("/register", async (c) => {
     const arrayBuffer = await profilePicture.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // ✅ FIXED PATH
     const uploadDir = path.join(process.cwd(), "uploads", "profiles");
 
     if (!fs.existsSync(uploadDir)) {
@@ -63,7 +66,6 @@ authRoute.post("/register", async (c) => {
 
     const filePath = path.join(uploadDir, uniqueFilename);
 
-    // ✅ non-blocking
     await fs.promises.writeFile(filePath, buffer);
   }
 
@@ -88,10 +90,12 @@ authRoute.post("/register", async (c) => {
     createdAt: Date.now(),
   });
 
-  c.header(
-    "Set-Cookie",
-    `session=${sessionToken}; Path=/; HttpOnly; SameSite=Lax`,
-  );
+  const isProd = process.env.NODE_ENV === "production";
+  const cookieOpts = isProd
+    ? "Path=/; HttpOnly; Secure; SameSite=None"
+    : "Path=/; HttpOnly; SameSite=Lax";
+
+  c.header("Set-Cookie", `session=${sessionToken}; ${cookieOpts}`);
 
   return c.json({
     id: userId,
@@ -129,10 +133,12 @@ authRoute.post("/login", async (c) => {
     createdAt: Date.now(),
   });
 
-  c.header(
-    "Set-Cookie",
-    `session=${sessionToken}; Path=/; HttpOnly; SameSite=Lax`,
-  );
+  const isProd = process.env.NODE_ENV === "production";
+  const cookieOpts = isProd
+    ? "Path=/; HttpOnly; Secure; SameSite=None"
+    : "Path=/; HttpOnly; SameSite=Lax";
+
+  c.header("Set-Cookie", `session=${sessionToken}; ${cookieOpts}`);
 
   return c.text("Logged in!");
 });
@@ -149,7 +155,12 @@ authRoute.post("/logout", async (c) => {
 
   await db.delete(sessions).where(eq(sessions.token, sessionToken));
 
-  c.header("Set-Cookie", "session=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax");
+  const isProd = process.env.NODE_ENV === "production";
+  const cookieOpts = isProd
+    ? "Path=/; HttpOnly; Secure; SameSite=None"
+    : "Path=/; HttpOnly; SameSite=Lax; Max-Age=0";
+
+  c.header("Set-Cookie", `session=; ${cookieOpts}`);
 
   return c.text("Logged out");
 });
