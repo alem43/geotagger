@@ -26,7 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await fetch('http://localhost:8787/me', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
           credentials: 'include',
         })
 
