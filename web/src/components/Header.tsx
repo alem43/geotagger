@@ -16,7 +16,7 @@ export default function Header() {
 
   const handleSignOut = async () => {
     try {
-      await fetch('http://localhost:8787/auth/logout', {
+      await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
         method: 'POST',
         credentials: 'include',
       })
@@ -74,7 +74,7 @@ export default function Header() {
                 <img
                   src={
                     user?.profilePictureUrl
-                      ? `http://localhost:8787/uploads/profiles/${user.profilePictureUrl}`
+                      ? `${import.meta.env.VITE_API_URL}/uploads/profiles/${user.profilePictureUrl}`
                       : mobileProfilePictureDefault
                   }
                   alt="hero"
@@ -121,7 +121,7 @@ export default function Header() {
                     <img
                       src={
                         user?.profilePictureUrl
-                          ? `http://localhost:8787/uploads/profiles/${user.profilePictureUrl}`
+                          ? `${import.meta.env.VITE_API_URL}/uploads/profiles/${user.profilePictureUrl}`
                           : mobileProfilePictureDefault
                       }
                       alt="profile picture"
@@ -136,8 +136,10 @@ export default function Header() {
                   <Link
                     to="/"
                     className="header-h5 text-2xl flex justify-between items-center mb-6 cursor-pointer"
-                    onClick={() => setIsOpen(false)}
-                    onClick={handleHome}
+                    onClick={() => {
+                      setIsOpen(false)
+                      handleHome()
+                    }}
                   >
                     Home
                     <img
@@ -149,8 +151,10 @@ export default function Header() {
                   <Link
                     to="/"
                     className="header-h5 text-2xl flex justify-between items-center text-primary cursor-pointer"
-                    onClick={() => setIsOpen(false)}
-                    onClick={handleSignOut}
+                    onClick={() => {
+                      setIsOpen(false)
+                      handleSignOut()
+                    }}
                   >
                     Logout
                     <img

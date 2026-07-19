@@ -59,7 +59,7 @@ const HomePageIn = () => {
   const handleGuess = async () => {
     if (!activeUploadId) return
 
-    const response = await fetch('http://localhost:8787/guesses', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/guesses`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -87,9 +87,12 @@ const HomePageIn = () => {
     const fetchRecentUploads = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch('http://localhost:8787/geotags/recent', {
-          credentials: 'include',
-        })
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/geotags/recent`,
+          {
+            credentials: 'include',
+          },
+        )
 
         if (response.ok) {
           const data = await response.json()
@@ -128,9 +131,12 @@ const HomePageIn = () => {
   useEffect(() => {
     const fetchTopGuesses = async () => {
       try {
-        const res = await fetch('http://localhost:8787/guesses/top3', {
-          credentials: 'include',
-        })
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/guesses/top3`,
+          {
+            credentials: 'include',
+          },
+        )
 
         if (!res.ok) return
 
